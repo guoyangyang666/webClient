@@ -1,7 +1,7 @@
 import React from 'react'
 import {Row, Col,Tooltip,Carousel,Menu, Icon,Table,Modal,Affix, Button,Input,BackTop, } from 'antd';
 import LoginInfo from './LoginInfo';
-import LabAdmin from './LabAdmin';
+import LabAdmin from './LabInfo/LabAdmin';
 import IndexBrowse from './IndexBrowse/IndexBrowse';//首页正文部分
 import TemporaryCardLoss from './TemporaryCardLoss';
 import StuReserve from './StuReserve';
