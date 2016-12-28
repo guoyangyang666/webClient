@@ -1,9 +1,15 @@
 import React from 'react';
 import { Link, browserHistory, hashHistory } from 'react-router';
 import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox } from 'antd';
+import '../css/LabAdmin.css';
+import LabEquipAdd from './LabEquipAdd';
+import LabEquipEdit from './LabEquipEdit';
 var Message = React.createClass({
   getInitialState(){
       return{
+        listStatus:true,//初始list列表状态
+        addStatus:true,//添加设备状态
+        updateStatus:true,//修改设备状态
         id:'',
         equip_name:'',
         storage_time:'',
@@ -42,9 +48,26 @@ var Message = React.createClass({
      });
     },
   handleAdd(){
-    $history.push("/LabEquipAdd");
+    this.setState({
+      listStatus: !this.state.listStatus,
+      addStatus: !this.state.addStatus,
+    })
+    // $history.push("/LabEquipAdd");
+  },
+  handleBack(){
+    this.setState({
+      listStatus: !this.state.listStatus,
+      addStatus: !this.state.addStatus,
+    })
   },
   editEquip(record){
+    // console.log(record.id);
+    // var recordId= record.id;
+    // this.setState({
+    //   listStatus: !this.state.listStatus,
+    //   updateStatus: !this.state.updateStatus,
+    // })
+
     $history.push("/LabEquipEdit/" + record.id);
   },
   deleteEquip(record){
@@ -93,13 +116,11 @@ var Message = React.createClass({
           },
           ];
     var labEquipRecord = this.state.labEquipRecord;
-    console.log("1111yangyagn"+labEquipRecord.length);
-    console.log(labEquipRecord);
     const dataList=[];
     if(labEquipRecord == undefined){
-      var id = labEquipRecord.id;//随访服务id
-      var equip_name = labEquipRecord.equip_name;//产后随访机构
-      var storage_time = labEquipRecord.storage_time;//随访方式
+      var id = labEquipRecord.id;//设备编号id
+      var equip_name = labEquipRecord.equip_name;//设备名称
+      var storage_time = labEquipRecord.storage_time;//入库时间
       dataList.push({
         key: i,
         id:labEquipRecord.id,
@@ -108,9 +129,9 @@ var Message = React.createClass({
       });
     }else {
       for (var i = 0; i < labEquipRecord.length; i++) {
-        var id = labEquipRecord[i].id;//随访服务id
-        var equip_name = labEquipRecord[i].equip_name;//产后随访机构
-        var storage_time = labEquipRecord[i].storage_time;//随访方式
+        var id = labEquipRecord[i].id;//设备编号id
+        var equip_name = labEquipRecord[i].equip_name;//设备名称
+        var storage_time = labEquipRecord[i].storage_time;//入库时间
         dataList.push({
           key: i,
           id:labEquipRecord[i].id,
@@ -119,24 +140,30 @@ var Message = React.createClass({
         });
       }
     }
+    const listStatus = this.state.listStatus;
+    const addStatus = this.state.addStatus;
+    const updateStatus = this.state.updateStatus;
     return (
       <div style={{clear:'none',paddingTop:'5%'}}>
       <Row>
         <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'3%'}}>实验室设备管理</p>
       </Row>
-        <div>
+        <div className={listStatus ? "list_equip" : "list_equip1"}>
           <Button className="editable-add-btn" type="ghost" onClick={this.handleAdd}>添加</Button>
           <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
         </div>
+        <div className={addStatus ? "add_equip" : "add_equip1"}>
+          <Button className="editable-add-btn" type="ghost" onClick={this.handleBack}>返回</Button>
+          <LabEquipAdd/>
+        </div>
       </div>
-
-
-
-
     );
-
   }
 
 });
 
 module.exports = Message;
+// <div className={updateStatus ? "update_equip" : "update_equip1"}>
+//   <Button className="editable-add-btn" type="ghost" onClick={this.handleUpdateBack}>返回</Button>
+//   <LabEquipEdit />
+// </div>

@@ -10,7 +10,6 @@ import Messages from '../routes/Messages/components/Messages';
 import LoginInfo from '../routes/Home/components/LoginInfo';
 import LabAdmin from '../routes/Home/components/LabInfo/LabAdmin';
 import LabEquipEdit from '../routes/Home/components/LabInfo/LabEquipEdit';
-import LabEquipAdd from '../routes/Home/components/LabInfo/LabEquipAdd';
 import ReserveProcess from '../routes/Home/components/ReserveProcess/ReserveProcess';
 import LabNoticeList from '../routes/Home/components/IndexBrowse/LabNoticeList';
 import LabNoticeDetail from '../routes/Home/components/IndexBrowse/LabNoticeDetail';
@@ -27,7 +26,6 @@ const routes = (
       <IndexRoute component={Home} />
     </Route>
     <Route path="/LoginInfo" component={LoginInfo} />
-    <Route path="/LabEquipAdd" component={LabEquipAdd} />
     <Route path="/LabNoticeList" component={LabNoticeList} />
     <Route path="/LabEquipEdit/:LabEquipid" component={LabEquipEdit} />
   </Router>

@@ -8,69 +8,55 @@ const Message = Form.create()(React.createClass({
     return {
       passwordDirty: false,
       loginPw:'',
+      //实验室管理员
+      staff_id:'',//教职工编号
+      staff_name:'',//教职工姓名
+      staff_sex:'',//教职工性别（1为男，2为女）
+      staff_phone:'',//教职工电话
+      staff_adress:'',//教职工居住地址
+      staff_cardnumber:'',//身份证号
+      staff_ranks:'',//职称
+      staff_desc:'',//职工简介
     };
+  },
+  componentWillMount(){
+    this.queryBasicInfo();
   },
   queryBasicInfo() {
     const self = this;
-    var url = $CONTEXT_ADDR + '/labAdmin/addLabInfo.do';
+    var url = $CONTEXT_ADDR + '/labAdmin/queryLabAdminInfo.do';
     $ajax.get({
       type: "POST",
       url: url,
       dataType: "json",
       data : {
-        "id": this.state.id,//登陆密码
-        "laboratory_name": this.state.laboratory_name,//登陆密码
-        "laboratory_adress": this.state.laboratory_adress,//登陆密码
-        "laboratory_adressnum": this.state.laboratory_adressnum,//登陆密码
-        "category_id": this.state.category_id,//登陆密码
-        "laboratory_desc": this.state.laboratory_desc,//登陆密码
-        "laboratory_renshu": this.state.laboratory_renshu,//登陆密码
-        "staff_id": localStorage.getItem('number'),//号
+        "staff_id": localStorage.getItem('number'),//职工编号
       },
       async:true
     },function(response){
-      var res = response;
-      if(res.length == "0"){
-        Modal.success({
-          title: '密码修改失败',
-          content: '返回',
-        });
-      }else {
-        Modal.success({
-          title: '密码修改成功',
-          content: '确认',
-        });
-      }
+      var res = response[0];
+      var staff_id = res.id;//教职工编号
+      var staff_name = res.staff_name;//教职工姓名
+      var staff_sex = res.staff_sex;//教职工性别（1为男，2为女）
+      var staff_phone = res.staff_phone;//教职工电话
+      var staff_adress = res.staff_adress;//教职工居住地址
+      var staff_cardnumber = res.staff_cardnumber;//身份证号
+      var staff_ranks = res.staff_ranks;//职称
+      var staff_desc = res.staff_desc;//职工简介
       self.setState({
-        loginPw:loginPw,
-        loginName:loginName,//用户名
+        staff_id:staff_id,//教职工编号
+        staff_name:staff_name,//教职工姓名
+        staff_sex:staff_sex,//教职工性别（1为男，2为女）
+        staff_phone:staff_phone,//教职工电话
+        staff_adress:staff_adress,//教职工居住地址
+        staff_cardnumber:staff_cardnumber,//身份证号
+        staff_ranks:staff_ranks,//职称
+        staff_desc:staff_desc,//职工简介
       });
     },function(e){
       //console.log("e..." , e);
     });
   },
-  handleSubmit(e) {
-     e.preventDefault();
-     if(this.state.id == null){
-       Modal.warning({
-         title: '实验室编号为空',
-         content: '请输入实验室编号',
-       });
-     }else if(this.state.laboratory_name == null) {
-       Modal.warning({
-         title: '实验室名称为空',
-         content: '请输入实验室名称',
-       });
-     }else{
-          this.queryBasicInfo();
-     }
-   },
-   handleChange: function(name, event){
-     var newState = {};
-     newState[name] = event.target.value;
-     this.setState(newState);
-     console.log(event.target.value);
-   },
 
   render() {
     const formItemLayout = {
@@ -86,7 +72,7 @@ const Message = Form.create()(React.createClass({
     return (
       <div style={{clear:'none',paddingTop:'5%'}}>
       <Row>
-        <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'5%'}}>管理员基本信息维护</p>
+        <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'5%'}}>管理员个人基本信息</p>
       </Row>
       <Form horizontal onSubmit={this.handleSubmit}>
         <FormItem
@@ -94,56 +80,64 @@ const Message = Form.create()(React.createClass({
         label="管理员工号："
         hasFeedback
       >
-        <Input type="text" value="001"
-         onChange={this.handleChange.bind(this,'id')}/>
+        <Input type="text" value={this.state.staff_id}
+         />
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="管理员姓名："
         hasFeedback
       >
-          <Input type="text" value="yangyang"
-           onChange={this.handleChange.bind(this,'laboratory_name')}/>
+          <Input type="text" value={this.state.staff_name}
+           />
       </FormItem>
       <FormItem
         {...formItemLayout}
-        label="登陆密码："
+        label="性别"
         hasFeedback
       >
-          <Input type="text" value="123456"
-           onChange={this.handleChange.bind(this,'category_id')}/>
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="身份证号："
-        hasFeedback
-      >
-          <Input type="text" value="130423111111111111"
-           onChange={this.handleChange.bind(this,'laboratory_adress')}/>
+          <Input type="text" value={this.state.staff_sex}
+           />
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="电话："
         hasFeedback
       >
-          <Input type="text" value="15733105938"
-           onChange={this.handleChange.bind(this,'laboratory_adressnum')}/>
+          <Input type="text" value={this.state.staff_phone}
+           />
       </FormItem>
       <FormItem
         {...formItemLayout}
-        label="管理员性别："
+        label="地址："
         hasFeedback
       >
-          <Input type="text" value="女"
-           onChange={this.handleChange.bind(this,'laboratory_renshu')}/>
+          <Input type="text" value={this.state.staff_adress}
+          />
+      </FormItem>
+      <FormItem
+        {...formItemLayout}
+        label="身份证号："
+        hasFeedback
+      >
+          <Input type="text" value={this.state.staff_cardnumber}
+           />
+      </FormItem>
+      <FormItem
+        {...formItemLayout}
+        label="管理员职称："
+        hasFeedback
+      >
+          <Input type="text" value={this.state.staff_ranks}
+           />
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="管理员简介："
         hasFeedback
       >
-          <Input type="text" value="暂无"
-           onChange={this.handleChange.bind(this,'laboratory_desc')}/>
+          <Input type="text" value={this.state.staff_desc}
+           />
       </FormItem>
       </Form>
       </div>

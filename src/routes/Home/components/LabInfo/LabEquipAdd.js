@@ -55,17 +55,6 @@ const Message = Form.create()(React.createClass({
       console.log("12234");
       var res = response;
       console.log(res);
-      // if(res.length == "0"){
-      //   Modal.success({
-      //     title: '密码修改失败',
-      //     content: '返回',
-      //   });
-      // }else {
-      //   Modal.success({
-      //     title: '密码修改成功',
-      //     content: '确认',
-      //   });
-      // }
       self.setState({
         loginPw:loginPw,
         loginName:loginName,//用户名
@@ -73,7 +62,7 @@ const Message = Form.create()(React.createClass({
     },function(e){
       //console.log("e..." , e);
     });
-    
+
   },
   handleSubmit(e) {
      e.preventDefault();
@@ -127,10 +116,7 @@ const Message = Form.create()(React.createClass({
     };
 
     return (
-      <div style={{clear:'none',paddingTop:'5%'}}>
-      <Row>
-        <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'5%'}}>实验室设备信息添加</p>
-      </Row>
+      <div>    
       <Form horizontal onSubmit={this.handleSubmit}>
     <Row>
       <Col span={12}>
