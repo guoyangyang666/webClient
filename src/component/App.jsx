@@ -14,6 +14,7 @@ import ReserveProcess from '../routes/Home/components/ReserveProcess/ReserveProc
 import LabNoticeList from '../routes/Home/components/IndexBrowse/LabNoticeList';
 import LabNoticeDetail from '../routes/Home/components/IndexBrowse/LabNoticeDetail';
 import NewsDetail from '../routes/Home/components/News/NewsDetail';
+import EquipList from '../routes/Home/components/IndexBrowse/EquipList';
 global.$history = hashHistory;
 const routes = (
   <Router history={$history}>
@@ -22,11 +23,13 @@ const routes = (
       <Route path="/LabAdmin/:id" component={LabAdmin} />
       <Route path="/ReserveProcess/:barId" component={ReserveProcess} />
       <Route path="/LabNoticeDetail/:notice_id" component={LabNoticeDetail}/>
+      <Route path="/equipList/:laboratory_id" component={equipList}/>
       <Route path="/NewsDetail/:news_id" component={NewsDetail}/>
       <IndexRoute component={Home} />
     </Route>
     <Route path="/LoginInfo" component={LoginInfo} />
     <Route path="/LabNoticeList" component={LabNoticeList} />
+    <Route path="/EquipList" component={EquipBar} />
     <Route path="/LabEquipEdit/:LabEquipid" component={LabEquipEdit} />
   </Router>
 );

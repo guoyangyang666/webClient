@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, browserHistory, hashHistory } from 'react-router';
 import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox } from 'antd';
 import LabNotice from './LabNotice';
+import Equip from './Equip';
 var Message = React.createClass({
   getInitialState() {
     return {
@@ -60,41 +61,6 @@ var Message = React.createClass({
                   <p><span>王小兰</span><span>成功预约</span><span>比表面积孔径分析仪</span><span>2016-12-29</span><span>08:00--16:00</span></p>
                 </div>
               </div>;
-        var centerB = <div>
-                        <div className="centerB">
-                          <div>
-                            <span>实验设备</span>
-                            <span><a href="###">更多</a></span>
-                          </div>
-                          <ul>
-                            <li>
-                              <img src={$IMAGE_ROOT_PATH+"/6.jpg"}/>
-                              <p>纸页手抄机3</p>
-                              <p>放置地点:&nbsp;新实验楼&nbsp;四楼&nbsp;402室</p>
-                            </li>
-                            <li>
-                              <img src={$IMAGE_ROOT_PATH+"/7.jpg"}/>
-                              <p>纸页手抄机2</p>
-                              <p>放置地点:&nbsp;新实验楼&nbsp;四楼&nbsp;402室</p>
-                            </li>
-                            <li>
-                              <img src={$IMAGE_ROOT_PATH+"/8.jpg"}/>
-                              <p>荧光光谱仪</p>
-                              <p>放置地点:&nbsp;新实验楼&nbsp;四楼&nbsp;402室</p>
-                            </li>
-                            <li>
-                              <img src={$IMAGE_ROOT_PATH+"/9.jpg"}/>
-                              <p>生物标本</p>
-                              <p>放置地点:&nbsp;新实验楼&nbsp;二楼&nbsp;202室</p>
-                            </li>
-                            <li>
-                              <img src={$IMAGE_ROOT_PATH+"/6.jpg"}/>
-                              <p>三离子束切割仪</p>
-                              <p>放置地点:&nbsp;一教&nbsp;二楼&nbsp;201室</p>
-                            </li>
-                          </ul>
-                        </div>
-                </div>;
     return (
       <div>
         <Row>
@@ -108,8 +74,7 @@ var Message = React.createClass({
             <div className="center-left-line"></div>
             <div><LabNotice/></div>
           </div>
-          <div>{centerB}</div>
-
+          <div><Equip/></div>
         </div>
 
       </div>

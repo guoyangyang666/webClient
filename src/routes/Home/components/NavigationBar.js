@@ -76,7 +76,7 @@ const NavigationBar = React.createClass({
       <Menu.Item key="NewsList">
         <Icon type="mail" />新闻动态
       </Menu.Item>
-      <Menu.Item key="LabEquip1">
+      <Menu.Item key="EquipBar">
         <Icon type="mail" />设备展示
       </Menu.Item>
       <Menu.Item key="mail6">

@@ -10,6 +10,7 @@ import ReserveProcess from './ReserveProcess/ReserveProcess';//预约流程
 import NewsList from './News/NewsList';//新闻列表
 import HeaderInfo from './HeaderInfo';//网页头部
 import FooterInfo from './FooterInfo';//网页尾部
+import EquipBar from './IndexBrowse/EquipBar';//设备展示页
 //首页
 const Home = React.createClass({
   getInitialState() {
@@ -61,6 +62,9 @@ const Home = React.createClass({
         }
         if(this.props.id=='NewsList'){  //新闻
          this.state.jumpIndex = <NewsList/>;
+        }
+        if(this.props.id=='EquipBar'){  //新闻
+         this.state.jumpIndex = <EquipBar/>;
         }
         if(this.props.id=='LoginDesc'){
           $history.push("LoginInfo");//登陆
