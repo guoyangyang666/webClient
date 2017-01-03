@@ -1,15 +1,15 @@
 import React from 'react'
 import {Row, Col,Tooltip,Carousel,Menu, Icon,Table,Modal,Affix, Button,Input,BackTop, } from 'antd';
-//公告单个列表
+//设备单个列表
 const SingleEquip = React.createClass({
   getInitialState(){
     return{
       show:false,
     };
   },
-  onHandleClick(){
-    $history.push("/LabNoticeDetail/"+this.props.notice_id)
-  },
+  // onHandleClick(){
+  //   $history.push("/LabNoticeDetail/"+this.props.notice_id)
+  // },
   render(){
     const {equip_id} = this.props;//设备编号
     const {equip_name} = this.props;//设备名称
@@ -49,6 +49,7 @@ const Equip = React.createClass({
       async:true
     },function(response){
        var equip = response;
+       console.log("equip11111",equip);
        self.setState({
          equip:equip,
        });
@@ -58,7 +59,7 @@ const Equip = React.createClass({
     });
   },
   equipList(){
-    $history.push("/EquipList");
+    $history.push("/EquipBar");
   },
 
   render(){

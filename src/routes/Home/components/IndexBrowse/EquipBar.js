@@ -3,31 +3,35 @@ import {Row, Col,Tooltip,Carousel,Menu, Icon,Table,Modal,Affix, Button,Input,Bac
 import HeaderInfo from '../HeaderInfo';
 import FooterInfo from '../FooterInfo';
 import EquipList from './EquipList';
-//设备左侧，所属实验室
-const LabEquip = React.createClass({
+import EquipLeftBar from './EquipLeftBar';
+import EquipAll from './EquipAll';
+ //设备左侧，所属实验室//设备单个列表
+const SingleEquip = React.createClass({
   getInitialState(){
     return{
       show:false,
-
     };
   },
-  onHandleClick(){
-    $history.push("/equipList/"+this.props.laboratory_id)
-  },
+  // onHandleClick(){
+  //   $history.push("/LabNoticeDetail/"+this.props.notice_id)
+  // },
   render(){
+    const {equip_id} = this.props;//设备编号
+    const {equip_name} = this.props;//设备名称
+    const {equip_image_one} = this.props;//设备图片
     const {laboratory_id} = this.props;//实验室id
-    const {laboratory_name} = this.props;//实验室名称
+    const {laboratory_adress} = this.props;//实验室地址，如北实验楼
+    const {laboratory_adressnum} = this.props;//房间号，如201
     return(
-      <div onClick={this.onHandleClick} >
-        <div style={{color:'black'}}>软件实验室</div>
-        <div style={{color:'black'}}>软件实验室</div>
-        <div style={{color:'black'}}>软件实验室</div>
-      </div>
+        <div className="equip_list" style={{marginBottom:'3%'}}>
+          <img src={$CONTEXT_ADDR+equip_image_one}/>
+          <p>{equip_name}</p>
+          <p>放置地点:&nbsp;{laboratory_adress}&nbsp;&nbsp;{laboratory_adressnum}</p>
+        </div>
     )
   }
-
 });
-//实验室公告
+//实验室设备
 const EquipBar = React.createClass({
   getInitialState(){
     return{
@@ -35,10 +39,11 @@ const EquipBar = React.createClass({
       current: 1,//当前页是1
       pageSize:4,
       totalRecord:'',
+      laboratory_id:'',
     };
   },
   componentWillMount(){
-    //this.queryBasicInfo();
+    //this.queryBasicInfo1();
   },
   queryBasicInfo(){
     const self = this;
@@ -65,6 +70,29 @@ const EquipBar = React.createClass({
       //console.log("e..." , e);
     });
   },
+  queryBasicInfo1(){
+    const self = this;
+    var url = $CONTEXT_ADDR + '/EquipMgr/quryAllEquip.do';
+    $ajax.get({
+      type: "POST",
+      url: url,
+      dataType: "json",
+      data : {
+        current:self.state.current,//当前点的第几页
+        pageSize:self.state.pageSize,//显示多少页
+      },
+      async:true
+    },function(response){
+       var equip = response;
+      console.log("设备信息",res);
+       self.setState({
+         equip:equip,
+       });
+
+    },function(e){
+      //console.log("e..." , e);
+    });
+  },
   onChange(page) {
     const self=this;
     this.setState({
@@ -74,36 +102,25 @@ const EquipBar = React.createClass({
     }  );
   },
   render(){
+
+
+
     return(
       <div>
         <Row>
           <HeaderInfo/>
         </Row>
-        <div>
-          <div className="center_news">
-            <div className="center_news_left">
-              <div>实验室设备</div>
-              <LabEquip/>
+        <Row >
+          <div className="center-index">
+            <div style={{width:'80%',margin:'auto',padding:'10'}}>
+              {content}
             </div>
-            <div className="center_news_right">
-              <div className="box">
-                <p className="bar"><a href="#">首页</a>&nbsp;&nbsp;<span>></span>&nbsp;&nbsp;<a href="#">实验室设备</a></p>
-                <div className="line"></div>
-                <div>
-                  <div >
-                    <div style={{width:'80%',margin:'auto',padding:'10'}}>
-                      <equipList/>
-                    </div>
-                    <div style={{margin:'auto',width:'30%',paddingBottom:'30',paddingTop:'20'}}>
-                        <Pagination current={this.state.current} onChange={this.onChange} total={this.state.totalRecord} pageSize={this.state.pageSize} showTotal={total => `总共 ${total} 条`}>
-                        </Pagination>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div style={{margin:'auto',width:'30%',paddingBottom:'30',paddingTop:'20'}}>
+                <Pagination current={this.state.current} onChange={this.onChange} total={this.state.totalRecord} pageSize={this.state.pageSize} showTotal={total => `总共 ${total} 条`}>
+                </Pagination>
             </div>
           </div>
-        </div>
+        </Row>
         <Row >
           <FooterInfo/>
         </Row>
@@ -112,4 +129,5 @@ const EquipBar = React.createClass({
     )
   }
 });
+
 module.exports = EquipBar;

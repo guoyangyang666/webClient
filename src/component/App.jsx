@@ -15,6 +15,9 @@ import LabNoticeList from '../routes/Home/components/IndexBrowse/LabNoticeList';
 import LabNoticeDetail from '../routes/Home/components/IndexBrowse/LabNoticeDetail';
 import NewsDetail from '../routes/Home/components/News/NewsDetail';
 import EquipList from '../routes/Home/components/IndexBrowse/EquipList';
+import EquipBar from '../routes/Home/components/IndexBrowse/EquipBar';
+import EquipDetail from '../routes/Home/components/IndexBrowse/EquipDetail';
+import EquipLeftBar from '../routes/Home/components/IndexBrowse/EquipLeftBar';
 global.$history = hashHistory;
 const routes = (
   <Router history={$history}>
@@ -23,13 +26,15 @@ const routes = (
       <Route path="/LabAdmin/:id" component={LabAdmin} />
       <Route path="/ReserveProcess/:barId" component={ReserveProcess} />
       <Route path="/LabNoticeDetail/:notice_id" component={LabNoticeDetail}/>
-      <Route path="/equipList/:laboratory_id" component={equipList}/>
+      <Route path="/EquipList/:laboratory_id" component={EquipList}/>
+      <Route path="/EquipDetail/:equip_id" component={EquipDetail}/>
       <Route path="/NewsDetail/:news_id" component={NewsDetail}/>
+      <Route path="/EquipBar" component={EquipLeftBar} />
       <IndexRoute component={Home} />
     </Route>
     <Route path="/LoginInfo" component={LoginInfo} />
     <Route path="/LabNoticeList" component={LabNoticeList} />
-    <Route path="/EquipList" component={EquipBar} />
+
     <Route path="/LabEquipEdit/:LabEquipid" component={LabEquipEdit} />
   </Router>
 );
