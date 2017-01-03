@@ -68,6 +68,7 @@ const EquipDetail = React.createClass({
           <div>所属实验室：{this.state.laboratory_name}</div>
           <div>实验室地址：{this.state.laboratory_adress}</div>
           <div>教室号：{this.state.laboratory_adressnum}</div>
+          <div>开放人群：如信息技术学院，13-网络工程、13-软件、13-计科</div>
           <div>注意事项：{this.state.equip_desc}</div>
         </div>
     return(
