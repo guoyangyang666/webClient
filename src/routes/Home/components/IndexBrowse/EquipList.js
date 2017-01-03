@@ -20,7 +20,7 @@ const SingleEquip = React.createClass({
     const {laboratory_adress} = this.props;//实验室地址，如北实验楼
     const {laboratory_adressnum} = this.props;//房间号，如201
     return(
-        <div className="equip_list" style={{marginTop:'7%'}}>
+        <div onClick={this.onHandleClick}  className="equip_list" style={{marginTop:'7%'}}>
           <img src={$CONTEXT_ADDR+equip_image_one}/>
           <p>{equip_name}</p>
           <p>放置地点:&nbsp;{laboratory_adress}&nbsp;&nbsp;{laboratory_adressnum}</p>
@@ -43,7 +43,6 @@ const EquipList = React.createClass({
   },
   queryBasicInfo(){
     const self = this;
-    console.log("shiyansid",this.props.laboratory_id);
     var url = $CONTEXT_ADDR + '/equip/quryAllLabEquip.do';
     $ajax.get({
       type: "POST",
