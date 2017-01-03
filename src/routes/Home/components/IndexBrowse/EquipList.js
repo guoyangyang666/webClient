@@ -1,44 +1,66 @@
 import React from 'react'
 import {Row, Col,Tooltip,Carousel,Menu, Icon,Table,Modal,Affix, Button,Input,BackTop,Pagination } from 'antd';
-//实验室公告
-const equipList = React.createClass({
+import HeaderInfo from '../HeaderInfo';
+import FooterInfo from '../FooterInfo';
+//设备单个列表
+const SingleEquip = React.createClass({
   getInitialState(){
     return{
-      notice:[],//首页两条公告
-      current: 1,//当前页是1
-      pageSize:4,
-      totalRecord:'',
+      show:false,
+    };
+  },
+  onHandleClick(){
+    $history.push("/EquipDetail/"+this.props.equip_id)
+  },
+  render(){
+    const {equip_id} = this.props;//设备编号
+    const {equip_name} = this.props;//设备名称
+    const {equip_image_one} = this.props;//设备图片
+    const {laboratory_id} = this.props;//实验室id
+    const {laboratory_adress} = this.props;//实验室地址，如北实验楼
+    const {laboratory_adressnum} = this.props;//房间号，如201
+    return(
+        <div className="equip_list" style={{marginTop:'7%'}}>
+          <img src={$CONTEXT_ADDR+equip_image_one}/>
+          <p>{equip_name}</p>
+          <p>放置地点:&nbsp;{laboratory_adress}&nbsp;&nbsp;{laboratory_adressnum}</p>
+        </div>
+    )
+  }
+});
+//实验室公告
+const EquipList = React.createClass({
+  getInitialState(){
+    return{
+    equip:[],//设备信息
+    current: 1,//当前页是1
+    pageSize:8,
+    totalRecord:'',
     };
   },
   componentWillMount(){
-    //this.queryBasicInfo();
+    this.queryBasicInfo();
   },
   queryBasicInfo(){
     const self = this;
-    var url = $CONTEXT_ADDR + '/notice/quryAllNotice.do';
-    var values;
-    if(self.props.laboratory_id == null){
-      values = {
-        current:self.state.current,//当前点的第几页
-        pageSize:self.state.pageSize,//显示多少页
-      }
-    }else{
-      current:self.state.current,//当前点的第几页
-      pageSize:self.state.pageSize,//显示多少页
-      laboratory_id : self.props.laboratory_id
-    }
+    console.log("shiyansid",this.props.laboratory_id);
+    var url = $CONTEXT_ADDR + '/equip/quryAllLabEquip.do';
     $ajax.get({
       type: "POST",
       url: url,
       dataType: "json",
-      data : values,
+      data : {
+        laboratory_id:self.props.laboratory_id,
+        current:self.state.current,//当前点的第几页
+        pageSize:self.state.pageSize,//显示多少页
+      },
       async:true
     },function(response){
-       var notice = response;
-       var total = notice[notice.length-1];
-       var totalRecord = total.totalRecord;
+       var equip = response;
+      var total = equip[equip.length-1];
+      var totalRecord = total.totalRecord;
        self.setState({
-         notice:notice,
+         equip:equip,
          totalRecord:totalRecord,
        });
 
@@ -55,21 +77,57 @@ const equipList = React.createClass({
     }  );
   },
   render(){
+    const recordList =[];
+    var equip = this.state.equip;
+    for(var i=0; i<equip.length-1; i++){
+      var equip_id = equip[i].id;
+      var equip_name = equip[i].equip_name;
+      var equip_image_one = equip[i].equip_image_one;
+      var laboratory_id = equip[i].laboratory_id;
+      var laboratory_adress = equip[i].laboratory_adress;
+      var laboratory_adressnum = equip[i].laboratory_adressnum;
+      recordList.push({key : i, content : <SingleEquip  equip_id={equip_id} equip_name={equip_name}
+        equip_image_one={equip_image_one} laboratory_id={laboratory_id} laboratory_adress={laboratory_adress} laboratory_adressnum={laboratory_adressnum}/>});
+    }
+    var content1 =
+        <div>
+          {recordList.map(map => (
+            <div key={map.key}>
+              {map.content}
+            </div>
+          ))}
+        </div>
     return(
       <div>
-
+        <Row>
+          <HeaderInfo/>
+        </Row>
+        <Row >
+          <div className="center-index">
+            <div style={{width:'80%',margin:'auto',padding:'10'}}>
+              {content1}
+            </div>
+            <div style={{margin:'auto',width:'30%',clear:'both',marginBottom:'30'}}>
+                <Pagination current={this.state.current} onChange={this.onChange} total={this.state.totalRecord} pageSize={this.state.pageSize} showTotal={total => `总共 ${total} 条`}>
+                </Pagination>
+            </div>
+          </div>
+        </Row>
+        <Row >
+          <FooterInfo/>
+        </Row>
       </div>
 
     )
   }
 });
 
-class equipList extends React.Component{
+class Message extends React.Component{
   render(){
     const {laboratory_id} = this.props.params;
     return(
-      <equipList laboratory_id={laboratory_id}/>
+      <EquipList laboratory_id={laboratory_id}/>
     )
   }
 }
-module.exports = equipList;
+module.exports = Message;
