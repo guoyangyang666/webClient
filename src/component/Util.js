@@ -2,8 +2,8 @@
 global.jQuery = require('jquery');
 global.Immutable = require('immutable');
 
-global.$CONTEXT_ADDR = "http://127.0.0.1:9999/hc-mops"; //服务器：http://dev.huihealth.com/hkbao  本地：http://127.0.0.1:9999/hkbao2
-global.$IMAGE_ROOT_PATH =  "/hc-mops/image/"; //    /hkbao
+global.$CONTEXT_ADDR = "http://172.31.140.249:8080/hc-mops"; //服务器：http://dev.huihealth.com/hkbao  本地：http://127.0.0.1:9999/hkbao2
+global.$IMAGE_ROOT_PATH =  "http://172.31.140.249:8080/hc-mops/image/"; //    /hkbao
 
 global.$ajax = {};
 global.$ajax.get = function(params , success , error){
