@@ -4,7 +4,7 @@ import LoginInfo from './LoginInfo';
 import LabAdmin from './LabInfo/LabAdmin';
 import IndexBrowse from './IndexBrowse/IndexBrowse';//首页正文部分
 import TemporaryCardLoss from './TemporaryCardLoss';
-import StuReserve from './StuReserve';
+import StuReserve from './Students/StuReserve';
 import TeacherReserve from './teacher/TeacherReserve';
 import ReserveProcess from './ReserveProcess/ReserveProcess';//预约流程
 import NewsList from './News/NewsList';//新闻列表

@@ -2,12 +2,12 @@ import React from 'react'
 import { Link ,browserHistory,hashHistory} from 'react-router'
 import { Row, Col,Tooltip,Carousel,Menu, Icon,Table,Modal, Button,Input,Tabs} from 'antd';
 import TeacherIntroduce from './TeacherIntroduce';
-import UpdatePassword from '.././UpdatePassword';
-import ReserveRecord from '.././ReserveRecord';
-import MissRecords from '.././MissRecords';
-import AppointRecord from '.././AppointRecord';
-import CancelRecords from '.././CancelRecords';
-import StuInfo from '../StuInfo';
+import UpdatePassword from '../Students/UpdatePassword';
+import ReserveRecord from '../Students/ReserveRecord';
+import MissRecords from '../Students/MissRecords';
+import AppointRecord from '../Students/AppointRecord';
+import CancelRecords from '../Students/CancelRecords';
+import StuInfo from '../Students/StuInfo';
 import TeacherRecord from './TeacherRecord';
 import CancelRecord from './CancelRecord';
 import StuRecords from './StuRecords';
