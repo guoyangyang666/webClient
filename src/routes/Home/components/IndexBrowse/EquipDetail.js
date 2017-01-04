@@ -2,35 +2,19 @@ import React from 'react'
 import {Row, Col,Tooltip,Carousel,Menu, Icon,Table,Modal,Affix, Button,Input,BackTop,Pagination } from 'antd';
 import HeaderInfo from '../HeaderInfo';
 import FooterInfo from '../FooterInfo';
-//设备单个列表
-const SingleEquip = React.createClass({
-  getInitialState(){
-    return{
-      show:false,
-    };
-  },
-
-  render(){
-    const {equip_id} = this.props;//设备编号
-    const {equip_name} = this.props;//设备名称
-    const {equip_image_one} = this.props;//设备图片
-    const {laboratory_id} = this.props;//实验室id
-    const {laboratory_adress} = this.props;//实验室地址，如北实验楼
-    const {laboratory_adressnum} = this.props;//房间号，如201
-    return(
-        <div className="equip_list" style={{marginTop:'7%'}}>
-          <img src={$CONTEXT_ADDR+equip_image_one}/>
-          <p>{equip_name}</p>
-          <p>放置地点:&nbsp;{laboratory_adress}&nbsp;&nbsp;{laboratory_adressnum}</p>
-        </div>
-    )
-  }
-});
-//实验室公告
+//实验室设备
 const EquipDetail = React.createClass({
   getInitialState(){
     return{
-    equip:[],//设备信息
+      equip_id:'',//设备id
+      equip_name:'',//设备名称
+      equip_image_one:'',//设备图片路径
+      application:'',//用途简介
+      equip_desc:'',//注意事项
+      laboratory_id:'',//所属实验室id
+      laboratory_name:'',//实验室名字
+      laboratory_adress:'',//实验室地址
+      laboratory_adressnum:'',//实验室教室号
     };
   },
   componentWillMount(){
@@ -38,54 +22,54 @@ const EquipDetail = React.createClass({
   },
   queryBasicInfo(){
     const self = this;
-    console.log("shiyansid",this.props.equip_id);
     var url = $CONTEXT_ADDR + '/equip/quryEquip.do';
     $ajax.get({
       type: "POST",
       url: url,
       dataType: "json",
       data : {
-        equip_id:self.props.equip_id,
+        id:self.props.equip_id,
       },
       async:true
     },function(response){
-       var equip = response;
+       var equip = response[0];
+       var equip_id = equip.id;//设备id
+       var equip_name = equip.equip_name;//设备名称
+       var equip_image_one = equip.equip_image_one;//设备图片路径
+       var application = equip.application;//用途简介
+       var equip_desc = equip.equip_desc;//注意事项
+       var laboratory_id = equip.laboratory_id;//所属实验室id
+       var laboratory_name = equip.laboratory_name;//实验室名字
+       var laboratory_adress = equip.laboratory_adress;//实验室地址
+       var laboratory_adressnum = equip.laboratory_adressnum;//实验室教室号
        self.setState({
-         equip:equip,
+         equip_id:equip_id,//设备id
+         equip_name:equip_name,//设备名称
+         equip_image_one:equip_image_one,//设备图片路径
+         application:application,//用途简介
+         equip_desc:equip_desc,//注意事项
+         laboratory_id:laboratory_id,//所属实验室id
+         laboratory_name:laboratory_name,//实验室名字
+         laboratory_adress:laboratory_adress,//实验室地址
+         laboratory_adressnum:laboratory_adressnum,//实验室教室号
        });
 
     },function(e){
       //console.log("e..." , e);
     });
   },
-  onChange(page) {
-    const self=this;
-    this.setState({
-      current: page,
-    },function () {
-      self.queryBasicInfo();
-    }  );
-  },
   render(){
-    const recordList =[];
-    var equip = this.state.equip;
-    for(var i=0; i<equip.length-1; i++){
-      var equip_id = equip[i].id;
-      var equip_name = equip[i].equip_name;
-      var equip_image_one = equip[i].equip_image_one;
-      var laboratory_id = equip[i].laboratory_id;
-      var laboratory_adress = equip[i].laboratory_adress;
-      var laboratory_adressnum = equip[i].laboratory_adressnum;
-      recordList.push({key : i, content : <SingleEquip  equip_id={equip_id} equip_name={equip_name}
-        equip_image_one={equip_image_one} laboratory_id={laboratory_id} laboratory_adress={laboratory_adress} laboratory_adressnum={laboratory_adressnum}/>});
-    }
+    const equip_image_one = this.state.equip_image_one;
     var content1 =
         <div>
-          {recordList.map(map => (
-            <div key={map.key}>
-              {map.content}
-            </div>
-          ))}
+          <div>设备图片：<img style={{width:'20%'}} src={$CONTEXT_ADDR+equip_image_one}/></div>
+          <div>设备名称：{this.state.equip_name}</div>
+          <div>用途简介：{this.state.application}</div>
+          <div>所属实验室：{this.state.laboratory_name}</div>
+          <div>实验室地址：{this.state.laboratory_adress}</div>
+          <div>教室号：{this.state.laboratory_adressnum}</div>
+          <div>开放人群：如信息技术学院，13-网络工程、13-软件、13-计科</div>
+          <div>注意事项：{this.state.equip_desc}</div>
         </div>
     return(
       <div>

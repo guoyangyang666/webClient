@@ -12,32 +12,32 @@ const Message = Form.create()(React.createClass({
   },
   queryBasicInfo() {
     const self = this;
-    var url = $CONTEXT_ADDR + '/labAdmin/updatePassword.do';
+    var url = $CONTEXT_ADDR + '/students/updatePassword.do';
     $ajax.get({
       type: "POST",
       url: url,
       dataType: "json",
       data : {
-        "loginPw": this.state.loginPw,//登陆密码
-        "loginName": localStorage.getItem('loginName'),//用户名
+        "loginPw": this.state.loginPw,//获取要修改的密码
+        "number": localStorage.getItem('number'),//用户名
+        "logintype": localStorage.getItem('logintype'),//用户类型，3为学生，2为教师
       },
       async:true
     },function(response){
       var res = response;
-      if(res.length == "0"){
+      console.log("res",res);
+      if(res[0].code == 1){
         Modal.success({
-          title: '密码修改失败',
-          okText: '返回',
-        });
+            title: '密码修改成功',
+            okText: '确认',
+          });
       }else {
-        Modal.success({
-          title: '密码修改成功',
-          okText: '确认',
-        });
+        Modal.error({
+            title: '密码修改失败',
+            okText: '确认',
+          });
       }
-      self.setState({
-        loginPw:loginPw,
-        loginName:loginName,//用户名
+      self.setState({      
       });
     },function(e){
       //console.log("e..." , e);

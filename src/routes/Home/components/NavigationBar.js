@@ -76,13 +76,13 @@ const NavigationBar = React.createClass({
       <Menu.Item key="NewsList">
         <Icon type="mail" />新闻动态
       </Menu.Item>
-      <Menu.Item key="EquipBar">
+      <Menu.Item key="EquipLeftBar">
         <Icon type="mail" />设备展示
       </Menu.Item>
       <Menu.Item key="mail6">
         <Icon type="mail" />资料下载
       </Menu.Item>
-      <Menu.Item key="mail4">
+      <Menu.Item key="ContactMe">
         <Icon type="mail" />联系我们
       </Menu.Item>
       <Menu.Item key="LoginDesc" className={displayStatus ? "displayStatus" : "displayStatus1"}>

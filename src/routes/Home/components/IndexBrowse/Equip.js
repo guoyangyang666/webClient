@@ -7,9 +7,9 @@ const SingleEquip = React.createClass({
       show:false,
     };
   },
-  // onHandleClick(){
-  //   $history.push("/LabNoticeDetail/"+this.props.notice_id)
-  // },
+  onHandleClick(){
+    $history.push("/EquipDetail/"+this.props.equip_id)
+  },
   render(){
     const {equip_id} = this.props;//设备编号
     const {equip_name} = this.props;//设备名称
@@ -18,7 +18,7 @@ const SingleEquip = React.createClass({
     const {laboratory_adress} = this.props;//实验室地址，如北实验楼
     const {laboratory_adressnum} = this.props;//房间号，如201
     return(
-        <div className="equip_list">
+        <div onClick={this.onHandleClick} className="equip_list">
           <img src={$CONTEXT_ADDR+equip_image_one}/>
           <p>{equip_name}</p>
           <p>放置地点:&nbsp;{laboratory_adress}&nbsp;&nbsp;{laboratory_adressnum}</p>
