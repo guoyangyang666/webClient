@@ -52,7 +52,7 @@ var Message = React.createClass({
             </div>;
       var centerMLeft = <div>
                 <div className="centerM_left">
-                  <div>实验室预订信息</div>
+                  <div className="centerM_left_title">实验室预订信息</div>
                   <p><span>张晓婷</span><span>成功预约</span><span>比表面积孔径分析仪</span><span>2016-12-29</span><span>08:00--16:00</span></p>
                   <p><span>郭洋洋</span><span>成功预约</span><span>比表面积孔径分析仪</span><span>2016-12-29</span><span>08:00--16:00</span></p>
                   <p><span>丁宇</span><span>成功预约</span><span>比表面积孔径分析仪</span><span>2016-12-29</span><span>08:00--16:00</span></p>

@@ -19,7 +19,7 @@ const SingleNotice = React.createClass({
     return(
       <div onClick={this.onHandleClick} className="info" style={{marginTop:'20'}}>
         <img src={$CONTEXT_ADDR+image_url}/>
-        <div>
+        <div className='PGroup'>
           <p style={{float:'left'}}>{notice_title}</p><span style={{float:'right'}}>{notice_date}</span>
           <p style={{clear:'both'}}>{notice_desc}</p>
         </div>
