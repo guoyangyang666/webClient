@@ -1,0 +1,11 @@
+.divSmall{
+  background-color: red;
+  width: 80px;
+  height: 80px;
+  float: left;
+  border: 1px solid black;
+}
+.divSmall1{
+  float: left;
+}
+.bz-table { border-collapse: collapse; border-spacing: 0px; empty-cells: show; border: 1px solid rgb(221, 221, 221); width: 100%; font-size: 14px; text-align: center; box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05); }

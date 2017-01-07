@@ -9,6 +9,7 @@ import LabEquip from './LabEquip';
 import LabEquipAdd from './LabEquipAdd';
 import LabAdminInfo from './LabAdminInfo';
 import LabAdminExamine from './LabAdminExamine';
+import ExperimBatch from './ExperimBatch';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 //全局变量
@@ -23,7 +24,7 @@ const LabAdmin = React.createClass({
   //this.queryBasicInfo();
   },
   queryBasicInfo() {
-    const self = this;    
+    const self = this;
   },
   handleClick(e) {
     console.log('click ', e);
@@ -44,6 +45,8 @@ const LabAdmin = React.createClass({
       this.state.content = <LabAdminInfo/>;
     }else if(e.key == "LabAdminExamine"){
       this.state.content = <LabAdminExamine/>;
+    }else if(e.key == "ExperimBatch"){
+      this.state.content = <ExperimBatch/>;
     }
 
   },
@@ -63,9 +66,9 @@ const LabAdmin = React.createClass({
               <span className="nav-text">实验室管理简介</span>
             </Menu.Item>
             <Menu.Item key="LabNoClassTime" className="menu">
-              <span className="nav-text">实验无课时间发布</span>
+              <span className="nav-text">实验室课表</span>
             </Menu.Item>
-            <Menu.Item key="Register7" className="menu">
+            <Menu.Item key="ExperimBatch" className="menu">
               <span className="nav-text">实验批次发布</span>
             </Menu.Item>
             <Menu.Item key="LabAdminExamine" className="menu">

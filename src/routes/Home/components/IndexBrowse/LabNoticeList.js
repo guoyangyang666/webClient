@@ -21,7 +21,7 @@ const SingleNotice = React.createClass({
     const {image_url} = this.props;//图片地址
     return(
       <div onClick={this.onHandleClick} className="info" style={{marginTop:'20',border:'1px solid #ccccb3',padding:'10'}}>
-        <img src=""/>
+        <img  src={$CONTEXT_ADDR+image_url}/>
         <div>
           <p style={{float:'left'}}>{notice_title}</p><span style={{float:'right'}}>{notice_date}</span>
           <p style={{clear:'both'}}>{notice_desc}</p>

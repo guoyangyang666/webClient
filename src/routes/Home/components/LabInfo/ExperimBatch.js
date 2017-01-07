@@ -100,10 +100,10 @@ const Message = Form.create()(React.createClass({
     return (
       <div style={{clear:'none',paddingTop:'5%'}}>
         <Row>
-          <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'3%'}}>实验室课表</p>
+          <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'3%'}}>添加实验批次</p>
         </Row>
         <div>
-           <iframe src="hc-mops/LabCourseTime/index.html" width="100%" height="400" frameborder="0"  border="0" marginwidth="0" marginheight="0" scrolling> </iframe>
+           <iframe src="hc-mops/LabCourseTime/experimBatch.html" width="100%" height="400" frameborder="0"  border="0" marginwidth="0" marginheight="0" scrolling> </iframe>
         </div>
 
       </div>
