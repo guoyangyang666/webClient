@@ -1,120 +1,180 @@
 import React from 'react';
 import { Link, browserHistory, hashHistory } from 'react-router';
-import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox,Select } from 'antd';
-import $ from 'jquery';
-import '../css/LabNoClassTime.css';
-const FormItem = Form.Item;
-const Option = Select.Option;
-const Message = Form.create()(React.createClass({
-  getInitialState() {
-    return {
-      passwordDirty: false,
-      loginPw:'',
-      res:[],
-    };
+import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox } from 'antd';
+import '../css/LabAdmin.css';
+import BatchAdd from './BatchAdd';
+var Message = React.createClass({
+  getInitialState(){
+      return{
+        listStatus:true,//初始list列表状态
+        addStatus:true,//添加设备状态
+        updateStatus:true,//修改设备状态
+        id:'',
+        equip_name:'',
+        storage_time:'',
+        labEquipRecord:[],//列表
+      };
+    },
+
+  componentWillMount() {
+     this.qryVaccinationHistion();
+    },
+    qryVaccinationHistion() {
+     const self = this;
+     var url = $CONTEXT_ADDR + '/labAdmin/quryExperimbatchs.do';
+     $ajax.get({
+       type: "POST",
+       url: url,
+       dataType: "json",
+       data : {
+         "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号
+       },
+       async:true
+     },function(response){
+        var labEquipRecord = response;
+
+        // for(var i=0; i<res.length; i++){
+        //   var labEquipRecord = res[i];
+        // }
+        self.setState({
+          labEquipRecord:labEquipRecord,//列表
+        });
+
+     },function(e){
+       //console.log("e..." , e);
+     });
+    },
+  handleAdd(){
+    this.setState({
+      listStatus: !this.state.listStatus,
+      addStatus: !this.state.addStatus,
+    })
+    // $history.push("/LabEquipAdd");
   },
-  componentWillMount(){
-    //this.queryBasicInfo();
+  handleBack(){
+    this.setState({
+      listStatus: !this.state.listStatus,
+      addStatus: !this.state.addStatus,
+    })
+    this.qryVaccinationHistion();
   },
-  queryBasicInfo() {
+  deleteEquip(record){
     const self = this;
-    var url = $CONTEXT_ADDR + '/labAdmin/quryAllCourse.do';
+    var url = $CONTEXT_ADDR + '/labAdmin/deleteExperimbatchs.do';
+    console.log(record.id);
     $ajax.get({
       type: "POST",
       url: url,
       dataType: "json",
       data : {
-        "laboratory_id": localStorage.getItem('laboratoryId'),//實驗室id
+        "id": record.id,//实验室编号
       },
       async:true
     },function(response){
       var res = response;
-      self.setState({
-          res:res,
-      });
+      if(res[0].code == 1){
+        Modal.success({
+          title:"删除成功",
+          okText:"确定"
+        })
+      }else{
+        Modal.error({
+          title:"删除失败",
+          okText:"确定"
+        })
+      }
+
+
+       self.setState({
+
+       });
+
     },function(e){
       //console.log("e..." , e);
     });
-  },
-  handleClick(e) {
-    console.log('click ', e);
-    this.setState({
-      current: e.key,
-    });
-    console.log(e.key);
-  },
+    this.qryVaccinationHistion();
 
+  },
   render() {
-    // var arr = this.state.res;
-    // console.log(arr.length);
-    // var arr1=[["时间/星期","星期一","星期二","星期三","星期四","星期五"]];
-    // for(var i = 1 ; i < 14 ; i++){
-    //     arr1.push(["第"+i+"节"]);
-    //     for(var j = 0 ; j < 5 ; j++){
-    //         arr1[arr1.length-1].push(" ");
-    //     }
-    // }//构建了一个课程表数组
-    // for(var i = 0 ; i < arr.length ; i++){
-    //     var name = arr[i][0];
-    //     var week = arr[i][1];
-    //     var start = arr[i][2];
-    //     var startNum = arr[i][3];
-    //     var startWeek = arr[i][4];
-    //     var lastWeek = arr[i][5];
-    //     console.log("lastWeek",lastWeek);
-    //     for(var j = 0 ; j < startNum ; j++){
-    //         if( j == 0){
-    //             arr1[start+j][week]={content:name+("{第"+startWeek+"-"+lastWeek+"周}"),rowspan:startNum}
-    //             console.log(arr1[start+j][week]);
-    //         }else{
-    //             arr1[start+j][week]=null;
-    //         }
-    //     }
-    // }//渲染虚拟table
-    // var Odiv = document.createElement('table');
-    // Odiv.className="c";
-    //          //创建一个span
-    // for(var i = 0 ; i < arr1.length ; i++){
-    //     var Ospan=document.createElement("tr");
-    //     Odiv.appendChild(Ospan);            //在div内创建一个span
-    //     for(var j = 0 ; j < arr1[i].length ; j++){
-    //         if(arr1[i][j] == null){
-    //
-    //         }else if((typeof arr1[i][j]) == "string"){
-    //             var Ospan1=document.createElement("td");
-    //             Ospan.appendChild(Ospan1);
-    //             Ospan1.innerHTML = arr1[i][j];
-    //         }else{
-    //             var Ospan1=document.createElement("td");
-    //             Ospan.appendChild(Ospan1);
-    //             Ospan.rowspan = arr1[i][j].rowspan;
-    //             Ospan1.innerHTML = arr1[i][j].content;
-    //
-    //         }
-    //     }
-    //
-    // }
-    //     document.body.appendChild(Odiv);
-
-
+    const columns = [
+            { title: '实验室', width: 100, dataIndex: 'laboratory_name', key: 'laboratory_name', fixed: 'left' },
+            { title: '实验名', width: 100, dataIndex: 'experim_name', key: 'equip_name', fixed: 'left' },
+            { title: '实验批次', width: 100, dataIndex: 'batch', key: 'batch', fixed: 'left' },
+            { title: '开始周', width: 100, dataIndex: 'start_week', key: 'start_week', fixed: 'left' },
+            { title: '结束周', width: 100, dataIndex: 'last_week', key: 'last_week', fixed: 'left' },
+            { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 150,
+            render: (text, record, index) => (
+              <span>
+               <a onClick={() => this.deleteEquip(record)}>删除</a>
+             </span>
+              ),
+          },
+          ];
+    var labEquipRecord = this.state.labEquipRecord;
+    const dataList=[];
+    if(labEquipRecord == undefined){
+      var id = labEquipRecord.id;//id
+      var laboratory_name = labEquipRecord.laboratory_name;//实验室
+      var experim_name = labEquipRecord.experim_name;//实验批次名（什么实验）
+      var batch = labEquipRecord.batch;//实验批次
+      var start_week = labEquipRecord.start_week;//开始周数
+      var last_week = labEquipRecord.last_week;//持续周数
+      dataList.push({
+        key: i,
+        id:labEquipRecord.id,
+        laboratory_name:labEquipRecord.laboratory_name,
+        experim_name:labEquipRecord.experim_name,
+        batch:labEquipRecord.batch,
+        start_week:labEquipRecord.start_week,
+        last_week:labEquipRecord.last_week,
+      });
+    }else {
+      for (var i = 0; i < labEquipRecord.length; i++) {
+        var id = labEquipRecord[i].id;//设备编号id
+        var laboratory_name = labEquipRecord[i].laboratory_name;//设备名称
+        var experim_name = labEquipRecord[i].experim_name;//入库时间
+        var batch = labEquipRecord[i].batch;//设备编号id
+        var start_week = labEquipRecord[i].start_week;//设备名称
+        var last_week = labEquipRecord[i].last_week;//入库时间
+        dataList.push({
+          key: i,
+          id:labEquipRecord[i].id,
+          laboratory_name:labEquipRecord[i].laboratory_name,
+          experim_name:labEquipRecord[i].experim_name,
+          batch:labEquipRecord[i].batch,//设备编号id
+          start_week:labEquipRecord[i].start_week,//设备名称
+          last_week:labEquipRecord[i].last_week,//入库时间
+        });
+      }
+    }
+    const listStatus = this.state.listStatus;
+    const addStatus = this.state.addStatus;
+    const updateStatus = this.state.updateStatus;
     return (
       <div style={{clear:'none',paddingTop:'5%'}}>
-        <Row>
-          <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'3%'}}>添加实验批次</p>
-        </Row>
-        <div>
-           <iframe src="hc-mops/LabCourseTime/experimBatch.html" width="100%" height="400" frameborder="0"  border="0" marginwidth="0" marginheight="0" scrolling> </iframe>
+      <Row>
+        <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'3%'}}>实验批次管理</p>
+      </Row>
+        <div className={listStatus ? "list_equip" : "list_equip1"}>
+          <Button className="editable-add-btn" type="ghost" onClick={this.handleAdd}>添加</Button>
+          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
         </div>
-
+        <div className={addStatus ? "add_equip" : "add_equip1"}>
+          <Button className="editable-add-btn" type="ghost" onClick={this.handleBack}>返回</Button>
+          <BatchAdd/>
+        </div>
       </div>
-
     );
-
   }
 
-}));
+});
 
 module.exports = Message;
+// <div className={updateStatus ? "update_equip" : "update_equip1"}>
+//   <Button className="editable-add-btn" type="ghost" onClick={this.handleUpdateBack}>返回</Button>
+//   <LabEquipEdit />
+// </div>
+
 // <div>
-//    <iframe src="hc-mops/LabNoClassTime/index.html" width="100%" height="400" frameborder="0"  border="0" marginwidth="0" marginheight="0" scrolling="no"> </iframe>
+//    <iframe src="hc-mops/LabCourseTime/experimBatch.html" width="100%" height="400" frameborder="0"  border="0" marginwidth="0" marginheight="0" scrolling> </iframe>
 // </div>
