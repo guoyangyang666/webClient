@@ -5,7 +5,7 @@ import TeacherIntroduce from './TeacherIntroduce';
 import UpdatePassword from '../Students/UpdatePassword';
 import ReserveRecord from '../Students/ReserveRecord';
 import MissRecords from '../Students/MissRecords';
-import AppointRecord from '../Students/AppointRecord';
+import AppointRecord from '../teacher/AppointRecord';
 import CancelRecords from '../Students/CancelRecords';
 import StuInfo from '../Students/StuInfo';
 import TeacherRecord from './TeacherRecord';
@@ -64,7 +64,7 @@ const StuReserve = React.createClass({
     }else if(e.key == "MissRecords1"){
       this.state.content = <MissRecords/>;
     }else if(e.key == "AppointRecord"){
-      this.state.content = <TeacherIntroduce/>;
+      this.state.content = <AppointRecord/>;
     }else if(e.key == "CancelRecords1"){
       this.state.content = <CancelRecords/>;
     }else if(e.key == "StuInfo1"){
