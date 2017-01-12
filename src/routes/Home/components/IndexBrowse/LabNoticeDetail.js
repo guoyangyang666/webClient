@@ -58,13 +58,18 @@ const LabNoticeDetail = React.createClass({
 
     var content =
     <div>
-      <div class="box">
-        <p class="bar"><a href="首页.html">首页</a>&nbsp;&nbsp;<span>></span>&nbsp;&nbsp;<a href="news.html">新闻动态</a>&nbsp;&nbsp;<span>></span>&nbsp;&nbsp;<a href="详情.html">详情</a></p>
-        <div class="line"></div>
-						<p class="p1">{this.state.notice_title}</p>
-            <p class="p2">
+      <div className="box">
+        <p className="bar"><a href="首页.html">首页</a>&nbsp;&nbsp;<span>></span>&nbsp;&nbsp;<a href="news.html">新闻动态</a>&nbsp;&nbsp;<span>></span>&nbsp;&nbsp;<a href="详情.html">详情</a></p>
+        <div className="line"></div>
+        	<div className='LabDPs'>
+						<h3 className="Lab_h3">{this.state.notice_title}</h3>
+            <div className="Lab_img">
+            	
+            </div>
+            <p className="p2">
                 {this.state.notice_detail}
             </p>
+          </div>
       </div>
     </div>
 

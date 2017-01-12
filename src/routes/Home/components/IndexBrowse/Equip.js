@@ -21,7 +21,7 @@ const SingleEquip = React.createClass({
         <div onClick={this.onHandleClick} className="equip_list">
         	<div className='equip_list_img'>
         	<img src={$CONTEXT_ADDR+equip_image_one}/>
-        	<div className='mask'></div>
+        	<div className='equip_mask'></div>
         	</div> 
           <p className='equip_list_p1'>{equip_name}</p>
           <p className='equip_list_p2'>放置地点:&nbsp;{laboratory_adress}&nbsp;&nbsp;{laboratory_adressnum}</p>

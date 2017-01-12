@@ -21,10 +21,13 @@ const SingleNotice = React.createClass({
     const {image_url} = this.props;//图片地址
     return(
       <div onClick={this.onHandleClick} className="info infoList" style={{marginTop:'20',border:'1px solid #ccccb3',padding:'10'}}>
-        <img src={$CONTEXT_ADDR+image_url}/>
-        <div>
-          <p style={{float:'left'}}>{notice_title}</p><span style={{float:'right'}}>{notice_date}</span>
-          <p style={{clear:'both'}}>{notice_desc}</p>
+        <div  className='infoList_img'>	
+        <img  src={$CONTEXT_ADDR+image_url}/>
+        <div className='infoList_mask'></div>
+        </div>
+        <div className='infoList_p'>
+          <p className='info_p1'  style={{float:'left'}}>{notice_title}</p><span  className='info_span1' style={{float:'right',marginRight:'100'}}>{notice_date}</span>
+          <p className='info_p1'  style={{clear:'both'}}>{notice_desc}</p>
         </div>
       </div>
     )
@@ -36,7 +39,7 @@ const LabNotice = React.createClass({
     return{
       notice:[],//首页两条公告
       current: 1,//当前页是1
-      pageSize:4,
+      pageSize:3,
       totalRecord:'',
     };
   },
