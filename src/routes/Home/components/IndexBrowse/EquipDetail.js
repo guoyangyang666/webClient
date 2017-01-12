@@ -61,15 +61,15 @@ const EquipDetail = React.createClass({
   render(){
     const equip_image_one = this.state.equip_image_one;
     var content1 =
-        <div>
-          <div>设备图片：<img style={{width:'20%'}} src={$CONTEXT_ADDR+equip_image_one}/></div>
-          <div>设备名称：{this.state.equip_name}</div>
-          <div>用途简介：{this.state.application}</div>
-          <div>所属实验室：{this.state.laboratory_name}</div>
-          <div>实验室地址：{this.state.laboratory_adress}</div>
-          <div>教室号：{this.state.laboratory_adressnum}</div>
-          <div>开放人群：如信息技术学院，13-网络工程、13-软件、13-计科</div>
-          <div>注意事项：{this.state.equip_desc}</div>
+        <div className='equipD'>
+          <div><span className='equipD_img equipD_Tit'>设备图片：</span><img style={{width:'20%'}} src={$CONTEXT_ADDR+equip_image_one}/></div>
+          <div><span className='equipD_Tit'>设备名称：</span>{this.state.equip_name}</div>
+          <div><span className='equipD_Tit'>用途简介：</span>{this.state.application}</div>
+          <div><span className='equipD_Tit'>所属实验室：</span>{this.state.laboratory_name}</div>
+          <div><span className='equipD_Tit'>实验室地址：</span>{this.state.laboratory_adress}</div>
+          <div><span className='equipD_Tit'>教室号：</span>{this.state.laboratory_adressnum}</div>
+          <div><span className='equipD_Tit'>开放人群：</span>如信息技术学院，13-网络工程、13-软件、13-计科</div>
+          <div><span className='equipD_Tit'>注意事项：</span>{this.state.equip_desc}</div>
         </div>
     return(
       <div>

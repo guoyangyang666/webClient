@@ -21,9 +21,12 @@ const SingleEquip = React.createClass({
     const {laboratory_adressnum} = this.props;//房间号，如201
     return(
         <div onClick={this.onHandleClick}  className="equip_list" style={{marginTop:'7%'}}>
-          <img src={$CONTEXT_ADDR+equip_image_one}/>
-          <p>{equip_name}</p>
-          <p>放置地点:&nbsp;{laboratory_adress}&nbsp;&nbsp;{laboratory_adressnum}</p>
+          <div className='equip_list_img'>
+        	<img src={$CONTEXT_ADDR+equip_image_one}/>
+        	<div className='equip_mask'></div>
+        	</div> 
+          <p className='equip_list_p1'>{equip_name}</p>
+          <p className='equip_list_p2'>放置地点:&nbsp;{laboratory_adress}&nbsp;&nbsp;{laboratory_adressnum}</p>
         </div>
     )
   }
@@ -103,10 +106,10 @@ const EquipList = React.createClass({
         </Row>
         <Row >
           <div className="center-index">
-            <div style={{width:'80%',margin:'auto',padding:'10'}}>
+            <div style={{width:'80%',height:'450',margin:'auto',padding:'10',overflow:'hidden'}}>
               {content1}
             </div>
-            <div style={{margin:'auto',width:'30%',clear:'both',marginBottom:'30'}}>
+            <div style={{margin:'auto',padding:'15',width:'30%',clear:'both',marginBottom:'30'}}>
                 <Pagination current={this.state.current} onChange={this.onChange} total={this.state.totalRecord} pageSize={this.state.pageSize} showTotal={total => `总共 ${total} 条`}>
                 </Pagination>
             </div>

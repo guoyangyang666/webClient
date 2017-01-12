@@ -19,7 +19,7 @@ const LabEquipCard = React.createClass({
     const {laboratory_name} = this.props;//实验室名称
     return(
       <div onClick={this.onHandleClick} >
-        <div style={{color:'black'}}>{laboratory_name}</div>
+        <div className='labName' style={{color:'white'}}>{laboratory_name}</div>
       </div>
     )
   }
