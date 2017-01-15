@@ -18,7 +18,7 @@ const SingleNews = React.createClass({
     const {news_title} = this.props;//标题
     const {news_date} = this.props;//日期
     return(
-      <div onClick={this.onHandleClick} className="info" style={{marginTop:'10',padding:'10'}}>
+      <div onClick={this.onHandleClick} className="info newDiv" style={{marginTop:'10',padding:'10'}}>
         <div>
           <p style={{float:'left'}}>{news_title}</p><span style={{float:'right'}}>{news_date}</span>
         </div>
