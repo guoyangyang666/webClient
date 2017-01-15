@@ -12,27 +12,22 @@ var Message = React.createClass({
     },
 
   componentWillMount() {
-     //this.qryVaccinationHistion();
+     this.qryVaccinationHistion();
     },
     qryVaccinationHistion() {
      const self = this;
-     var url = $CONTEXT_ADDR + '/labAdmin/getAllEquip.do';
+     var url = $CONTEXT_ADDR + '/students/quryAllExperim.do';
      $ajax.get({
        type: "POST",
        url: url,
        dataType: "json",
        data : {
-         "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号
-         "type": localStorage.getItem('logintype'),//管理员类型
-         "staff_id": localStorage.getItem('number'),//管理员工号
+         "current_week": 1,//当前周
        },
        async:true
      },function(response){
         var labEquipRecord = response;
 
-        // for(var i=0; i<res.length; i++){
-        //   var labEquipRecord = res[i];
-        // }
         self.setState({
           labEquipRecord:labEquipRecord,//列表
         });
@@ -45,7 +40,39 @@ var Message = React.createClass({
     $history.push("/LabEquipAdd");
   },
   editEquip(record){
-    $history.push("/LabEquipEdit/" + record.id);
+    const self = this;
+    var url = $CONTEXT_ADDR + '/students/addStuExperim.do';
+    $ajax.get({
+      type: "POST",
+      url: url,
+      dataType: "json",
+      data : {
+        "stu_id": localStorage.getItem('number'),//学生编号
+        "course_time_id": record.id,//编号id
+        "laboratory_id": record.laboratory_id,//编号id
+        "staff_id":record.staff_id,//教师工号
+        "experim_num":record.experim_num+1,
+      },
+      async:true
+    },function(response){
+      if(response[0].code == 1){
+        Modal.success({
+          title:'预约成功',
+        })
+        self.qryVaccinationHistion();
+      }else {
+        Modal.error({
+          title:'操作失敗，請稍後充實',
+        })
+      }
+       self.setState({
+
+       });
+
+    },function(e){
+      //console.log("e..." , e);
+    });
+
   },
   deleteEquip(record){
     const self = this;
@@ -62,11 +89,6 @@ var Message = React.createClass({
       async:true
     },function(response){
 
-
-
-       // for(var i=0; i<res.length; i++){
-       //   var labEquipRecord = res[i];
-       // }
        self.setState({
 
        });
@@ -79,81 +101,123 @@ var Message = React.createClass({
   },
   render() {
     const columns = [
-     {
-        title: '实验室名称',
-        dataIndex: 'age',
-        key: 'age',
-        }, {
-        title: '试验项目批次',
-        dataIndex: 'address',
-        key: 'address',
-        },{
-        title: '预约时间',
-        dataIndex: 'time',
-        key: 'address',
-        }, {
-        title: '教学楼',
-        dataIndex: 'num',
-        key: 'num',
-        },  {
-        title: '教室号',
-        dataIndex: 'numname',
-        key: 'numname',
-        }, {
-        title: '容纳人数',
-        dataIndex: 'status',
-        key: 'status',
+      {
+       title: '实验名称',
+       dataIndex: 'experim_name',
+       key: 'experim_name',
+       },{
+      title: '实验批次',
+      dataIndex: 'batch',
+      key: 'batch',
+      },{
+       title: '第几周',
+       dataIndex: 'appoint_week',
+       key: 'appoint_week',
+       }, {
+       title: '上课地点',
+       dataIndex: 'laboratory_adress',
+       key: 'laboratory_adress',
+       },{
+       title: '周几',
+       dataIndex: 'week',
+       key: 'week',
+       },{
+       title: '上课时间',
+       dataIndex: 'times',
+       key: 'times',
+       }, {
+       title: '验室室名',
+       dataIndex: 'laboratory_name',
+       key: 'laboratory_name',
+       },{
+       title: '申请教师',
+       dataIndex: 'staff_name',
+       key: 'staff_name',
+       },{
+       title: '容纳人数',
+       dataIndex: 'laboratory_renshu',
+       key: 'laboratory_renshu',
+       }, {
+        title: '已选人数',
+        dataIndex: 'experim_num',
+        key: 'experim_num',
         },
-            { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 150,
-            render: (text, record, index) => (
-              <span>
-               <a onClick={() => this.editEquip(record)}>预约</a>
-             </span>
-              ),
-          },
-          ];
-
-          const data = [{
-            key: '1',
-            age: '网络实验室',
-            time:'周三 1-2',
-            address: '实验1',
-            num:'北一教',
-            numname:'201',
-            status:'30'
-          },{
-            key: '2',
-            age: '软件实验室',
-            time:'周五 6-8',
-            address: '实验5',
-            num:'北一教',
-            numname:'401',
-            status:'40'
-          }];
+        { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 50,
+          render: (text, record, index) => (
+            <span>
+             <a onClick={() => this.editEquip(record)}>预约</a>
+           </span>
+            ),
+        },
+        ];
     var labEquipRecord = this.state.labEquipRecord;
-    console.log("1111yangyagn"+labEquipRecord.length);
-    console.log(labEquipRecord);
     const dataList=[];
     if(labEquipRecord == undefined){
-      var id = labEquipRecord.id;//随访服务id
-      var equip_name = labEquipRecord.equip_name;//产后随访机构
-      var storage_time = labEquipRecord.storage_time;//随访方式
+      var id = labEquipRecord.id;//id
+      var experim_name = labEquipRecord.experim_name;//实验名称
+      var batch = labEquipRecord.batch;//实验批次
+      var week = '周'+parseInt(labEquipRecord.week);//周几
+      var start_times = parseInt(labEquipRecord.start_times);
+      var stop_times = parseInt(labEquipRecord.stop_times)+start_times;
+      var times = '第'+start_times +'—'+ stop_times+'节';//上课时间
+      var laboratory_id = labEquipRecord.laboratory_id;//实验室编号
+      var laboratory_adressnum = labEquipRecord.laboratory_adressnum;//教室号，如201
+      var laboratory_adress = labEquipRecord.laboratory_adress +'('+ laboratory_adressnum+')';//上课地点
+      var laboratory_name = labEquipRecord.laboratory_name;//验室名
+      var laboratory_renshu = labEquipRecord.laboratory_renshu;//实验室容纳人数
+      var staff_id = labEquipRecord.staff_id;//教师编号
+      var staff_name = labEquipRecord.staff_name;//教师名
+      var experim_num = labEquipRecord.experim_num;//已预约人数
+      var appoint_week = labEquipRecord.appoint_week;//第几周
       dataList.push({
         key: i,
-        id:labEquipRecord.id,
-        equip_name:labEquipRecord.equip_name,
-        storage_time:labEquipRecord.storage_time,
+        id:id,
+        experim_name:experim_name,
+        batch:batch,
+        week:week,//周次
+        times:times,
+        laboratory_id:laboratory_id,//实验室编号
+        laboratory_adress:laboratory_adress,//上课地点
+        laboratory_name:laboratory_name,//验室名
+        laboratory_renshu:laboratory_renshu,//实验室容纳人数
+        staff_id:staff_id,//教师编号
+        staff_name:staff_name,//教师名
+        experim_num:experim_num,//已预约人数
+        appoint_week:appoint_week,//第几周
       });
     }else {
       for (var i = 0; i < labEquipRecord.length; i++) {
-        var id = labEquipRecord[i].id;//随访服务id
-        var equip_name = labEquipRecord[i].equip_name;//产后随访机构
-        var storage_time = labEquipRecord[i].storage_time;//随访方式
+        var id = labEquipRecord[i].id;//id
+        var experim_name = labEquipRecord[i].experim_name;//实验名称
+        var batch = labEquipRecord[i].batch;//实验批次
+        var week = '周'+parseInt(labEquipRecord[i].week);//周几
+        var start_times = parseInt(labEquipRecord[i].start_times);
+        var stop_times = parseInt(labEquipRecord[i].stop_times)+start_times;
+        var times = '第'+start_times +'—'+ stop_times+'节';//上课时间
+        var laboratory_id = labEquipRecord[i].laboratory_id;//实验室编号
+        var laboratory_adressnum = labEquipRecord[i].laboratory_adressnum;//教室号，如201
+        var laboratory_adress = labEquipRecord[i].laboratory_adress +'('+ laboratory_adressnum+')';//上课地点
+        var laboratory_name = labEquipRecord[i].laboratory_name;//验室名
+        var laboratory_renshu = labEquipRecord[i].laboratory_renshu;//实验室容纳人数
+        var staff_id = labEquipRecord[i].staff_id;//教师编号
+        var staff_name = labEquipRecord[i].staff_name;//教师名
+        var experim_num = labEquipRecord[i].experim_num;//已预约人数
+        var appoint_week = labEquipRecord[i].appoint_week;//第几周
         dataList.push({
           key: i,
-          id:labEquipRecord[i].id,
-          equip_name:labEquipRecord[i].equip_name,
-          storage_time:labEquipRecord[i].storage_time,
+          id:id,
+          experim_name:experim_name,
+          batch:batch,
+          week:week,//周次
+          times:times,
+          laboratory_id:laboratory_id,//实验室编号
+          laboratory_adress:laboratory_adress,//上课地点
+          laboratory_name:laboratory_name,//验室名
+          laboratory_renshu:laboratory_renshu,//实验室容纳人数
+          staff_id:staff_id,//教师编号
+          staff_name:staff_name,//教师名
+          experim_num:experim_num,//已预约人数
+          appoint_week:appoint_week,//第几周
         });
       }
     }
@@ -164,7 +228,7 @@ var Message = React.createClass({
       </Row>
         <div>
 
-          <Table columns={columns}  dataSource={data}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
         </div>
       </div>
 

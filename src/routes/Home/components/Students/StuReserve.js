@@ -26,28 +26,7 @@ const StuReserve = React.createClass({
   },
   queryBasicInfo() {
     const self = this;
-
-    // var url = $CONTEXT_ADDR + '/students/login.do';
-    // $ajax.get({
-    //   type: "POST",
-    //   url: url,
-    //   dataType: "json",
-    //   data : {
-    //     id :"studentNo",//学生学号
-    //     loginPw :"loginPw",//学生登陆密码
-    //   },
-    //   async:true
-    // },function(response){
-    //   alert(response)
-    //     global.$userInfo={
-    //       name:name,
-    //     };
-    //     self.setState({
-    //
-    //     });
-    // },function(e){
-    //   //console.log("e..." , e);
-    // });
+    
   },
   handleClick(e) {
     console.log('click ', e);

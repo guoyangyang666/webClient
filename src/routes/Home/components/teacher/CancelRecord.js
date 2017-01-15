@@ -56,11 +56,6 @@ var Message = React.createClass({
       async:true
     },function(response){
 
-
-
-       // for(var i=0; i<res.length; i++){
-       //   var labEquipRecord = res[i];
-       // }
        self.setState({
 
        });
@@ -102,7 +97,7 @@ var Message = React.createClass({
        dataIndex: 'laboratory_name',
        key: 'laboratory_name',
        },
-       { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 150,
+       { title: '操作', dataIndex: '', key: 'x', fixed: 'left',width: 150,
        render: (text, record, index) => (
          <span>
           <a onClick={() => this.cancelEquip(record)}>刪除</a>
@@ -172,7 +167,7 @@ var Message = React.createClass({
       </Row>
         <div>
 
-          <Table columns={columns} dataSource={dataList} expandedRowRender={record => <p>{record.description}</p>}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <Table columns={columns} dataSource={dataList} expandedRowRender={record => <p>取消原因：{record.description}</p>} bordered={true}  pagination={{ pageSize:4 }}  scroll={{ x: true, y: 300 }} />
         </div>
       </div>
 

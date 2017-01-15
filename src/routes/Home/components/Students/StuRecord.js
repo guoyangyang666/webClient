@@ -12,27 +12,21 @@ var Message = React.createClass({
     },
 
   componentWillMount() {
-     //this.qryVaccinationHistion();
-    },
+    this.qryVaccinationHistion();
+  },
     qryVaccinationHistion() {
      const self = this;
-     var url = $CONTEXT_ADDR + '/labAdmin/getAllEquip.do';
+     var url = $CONTEXT_ADDR + '/students/quryStuExperim.do';
      $ajax.get({
        type: "POST",
        url: url,
        dataType: "json",
        data : {
-         "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号
-         "type": localStorage.getItem('logintype'),//管理员类型
-         "staff_id": localStorage.getItem('number'),//管理员工号
+         "stu_id": localStorage.getItem('number'),//学生编号
        },
        async:true
      },function(response){
         var labEquipRecord = response;
-
-        // for(var i=0; i<res.length; i++){
-        //   var labEquipRecord = res[i];
-        // }
         self.setState({
           labEquipRecord:labEquipRecord,//列表
         });
