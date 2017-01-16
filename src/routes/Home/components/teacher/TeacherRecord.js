@@ -38,9 +38,7 @@ var Message = React.createClass({
        //console.log("e..." , e);
      });
     },
-  handleAdd(){
-    $history.push("/LabEquipAdd");
-  },
+
   handleCancel(e) {
     console.log(e);
     this.setState({

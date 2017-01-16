@@ -41,62 +41,68 @@ var Message = React.createClass({
   },
   editEquip(record){
     const self = this;
-    var url = $CONTEXT_ADDR + '/students/addStuExperim.do';
-    $ajax.get({
-      type: "POST",
-      url: url,
-      dataType: "json",
-      data : {
-        "stu_id": localStorage.getItem('number'),//学生编号
-        "course_time_id": record.id,//编号id
-        "laboratory_id": record.laboratory_id,//编号id
-        "staff_id":record.staff_id,//教师工号
-        "experim_num":record.experim_num+1,
-      },
-      async:true
-    },function(response){
-      if(response[0].code == 1){
-        Modal.success({
-          title:'预约成功',
-        })
-        self.qryVaccinationHistion();
-      }else {
-        Modal.error({
-          title:'操作失敗，請稍後充實',
-        })
-      }
-       self.setState({
+      var url = $CONTEXT_ADDR + '/students/quryStu.do';
+      $ajax.get({
+        type: "POST",
+        url: url,
+        dataType: "json",
+        data : {
+          "stu_id": localStorage.getItem('number'),//学生编号
+          "course_time_id": record.id,//编号id
+        },
+        async:true
+      },function(response){
 
-       });
+        if(response[0].code == 1){
+          var url = $CONTEXT_ADDR + '/students/addStuExperim.do';
+          $ajax.get({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            data : {
+              "stu_id": localStorage.getItem('number'),//学生编号
+              "course_time_id": record.id,//编号id
+              "laboratory_id": record.laboratory_id,//编号id
+              "staff_id":record.staff_id,//教师工号
+              "experim_num":record.experim_num+1,
+            },
+            async:true
+          },function(response){
+            if(response[0].code == 1){
+              Modal.success({
+                title:'预约成功',
+              })
+              self.qryVaccinationHistion();
+            }else {
+              Modal.error({
+                title:'操作失敗，請稍後充實',
+              })
+            }
+             self.setState({
 
-    },function(e){
-      //console.log("e..." , e);
-    });
+             });
 
-  },
-  deleteEquip(record){
-    const self = this;
-    var url = $CONTEXT_ADDR + '/labAdmin/deleteLabInfo.do';
-    console.log(record.id);
-    $ajax.get({
-      type: "POST",
-      url: url,
-      dataType: "json",
-      data : {
-        "id": record.id,//实验室编号
-        "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号id
-      },
-      async:true
-    },function(response){
+          },function(e){
+            //console.log("e..." , e);
+          });
+        }else if(response[0].code == 2){
+          Modal.error({
+            title:'您已预约该实验',
+          })
+        }else{
+          Modal.error({
+            title:'请稍后再试',
+          })
+        }
+         self.setState({
 
-       self.setState({
+         });
 
-       });
+      },function(e){
+        //console.log("e..." , e);
+      });
 
-    },function(e){
-      //console.log("e..." , e);
-    });
-    this.qryVaccinationHistion();
+
 
   },
   render() {
