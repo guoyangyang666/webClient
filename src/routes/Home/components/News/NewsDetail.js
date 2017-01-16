@@ -57,12 +57,14 @@ const NewsDetail = React.createClass({
       <div className="box">
         <p className="bar"><a href="首页.html">首页</a>&nbsp;&nbsp;<span>></span>&nbsp;&nbsp;<a href="news.html">新闻动态</a>&nbsp;&nbsp;<span>></span>&nbsp;&nbsp;<a href="详情.html">详情</a></p>
         <div className="line"></div>
-						<p className="p1">{this.state.news_title}</p>
-            <p className="p1">{this.state.news_date}</p>
-            <p className="p1">{this.state.news_source}</p>
+        	<div className='newDetail'>
+						<h3>{this.state.news_title}</h3>
+            <span className="span1">{this.state.news_date}</span>
+            <span>{this.state.news_source}</span>
             <p className="p2">
                 {this.state.news_detail}
             </p>
+          </div>
       </div>
     </div>
 

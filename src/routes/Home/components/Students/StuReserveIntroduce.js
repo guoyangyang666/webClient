@@ -12,11 +12,13 @@ var Message = React.createClass({
           <p className="P1">学生预约功能介绍</p>
         </Row>
         <Row>
-        <p>1. 可查看个人基本信息。</p>
-        <p>2. 可申请预约实验室</p>
-        <p>3. 查看个人预约记录</p>
-        <p>4. 查看已取消的记录</p>
-        <p>5. 修改个人登陆密码</p>
+        <ul className="ul_list">
+           <li>可查看个人基本信息 ;</li>
+           <li>可申请预约实验室 ;</li>
+           <li>查看个人预约记录 ;</li>
+           <li>查看已取消的记录 ;</li>
+        	 <li>修改个人登陆密码 .</li>
+        </ul>    
         </Row>
       </div>
     );

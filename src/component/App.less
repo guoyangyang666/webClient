@@ -125,7 +125,6 @@ body{
     z-index: 100;
 }
 .header .title{
-  /**background-color: #466899;**/
     height: 50px;
     width: 500px;
     float: none;
@@ -138,15 +137,8 @@ body{
 }
 .nav{
     width: 20%;
-    /*height: 600px;*/
-    /*float: left;*/
-    /*margin-top: 0.5%;*/
-    /*border: 1px solid #ddccff;*/
-    /*box-shadow: 5px 5px 10px #ddccff;*/
     position: fixed;
     top: 110px;
-    /*background-color: #ffffcc;*/
-  /*  background-color: #ffffe5;*/
 }
 .content{
     width: 85%;
@@ -159,7 +151,6 @@ body{
     position: relative;
     top:75px;
     background-color: #FFFFFF;
-    /*background-color: #ffffcc;*/
 }
 /**导航栏**/
 .ant-layout-aside {
@@ -185,14 +176,13 @@ body{
 
 .ant-layout-aside .ant-layout-sider {
   width: 55%;
-  /**background: #404041;
-  position: absolute;
-  overflow: visible;
-  padding-bottom: 24px;
-  height: 100%;
-  transition: all 0.3s ease;**/
 }
-
+.ant-tabs-nav{
+    min-height: 500px;
+}
+.about_tab{
+    text-align: center;
+}
 .ant-layout-aside-collapse .ant-layout-sider {
   width: 64px;
   transition: all 0.3s ease;
@@ -318,7 +308,7 @@ body{
 
 /**预约实验室**/
 .ant-menu{
-  background: #0077cf;
+background: #0077cf;
   color: #ffffff;
   height: 40px;
   font-family: 楷体;
@@ -456,6 +446,25 @@ body{
 	background-color: #2b77d1;
 	margin-top: 10px;
 }
+.newDetail{
+    width: 95%;
+    padding: 20px;
+    margin: 20px auto;
+    border:1px solid #999999;
+}
+h3{
+    text-align: center;
+    margin-bottom: 15px;
+}
+.span1{
+    margin-left: 60%;
+    margin-right: 20px;
+}
+.p2{
+    text-indent: 2em;
+    margin-top: 10px;
+    font-size: 15px;
+}
 .LabDPs{
     margin-top: 20px;
     padding: 15px;
@@ -481,18 +490,24 @@ body{
     border-radius: 10px;
     font-size: 20px;
     text-align: center;
+    cursor: pointer;
+}
+.labName:hover {
+    background: #2DB7F5;
 }
 .equipD{
     margin-top: 30px;
 }
 .equipD_img{
-    height: 130px;
-    margin-top: -100px;
+//  height: 130px;
+    margin-top: -100px !important;
 }
 .equipD_Tit{
+    display: inline-block;
     font-size:15px;
     font-weight:bold;
     margin: 10px 0;
+    width: 100px;
 }
 /**实验室管理员**/
 .Menu-all{
@@ -503,6 +518,7 @@ body{
   height: 40px;
   margin: 5% auto;
   text-align: center;
+  background: transparent;
 
 }
 .center_news_left .Menu-all .menu span{
@@ -514,9 +530,9 @@ body{
   font-size: 20px;
   font-family: 楷体;
 }
-.center_news_left .Menu-all .menu:hover{
-  background-color: #0000ff;
-}
+//.center_news_left .Menu-all .menu:hover{
+//background-color: #0000ff;
+//}
 /**管理员介绍LabIntroduce**/
 .index-content {
   width: 60%;
@@ -524,20 +540,26 @@ body{
   margin: 3% auto;
   text-align: center;
 }
-.index-content .P1{
-  font-size: 30px;
+.P1{
+  font-size: 20px !important;
   font-family: 华文楷体;
-  margin-bottom: 40px;
+  margin-bottom: 30px;
   text-align: center;
+  font-weight: 600;
   float: none;
 }
-.index-content  p{
-  font-size: 25px;
-  font-family: 华文楷体;
-  margin-top: 10px;
-  float: left;
-
+.ul_list li{
+    margin-bottom: 15px;
+    text-align: left;
+    color: grey;
 }
+//.index-content  p{
+//font-size: 25px;
+//font-family: 华文楷体;
+//margin-top: 10px;
+//float: left;
+//
+//}
 /**无课表**/
 .class-time{
   width: 30%;
@@ -974,3 +996,14 @@ td, th { padding: 0px; }
 }
 /**小卡片样式结束**/
 /*无课表*/
+
+.newDiv{
+    border: 1px solid #ccccb3;
+    padding: 25px;
+    margin-bottom: 20px;
+}
+.newDiv:hover{
+    color: #1B76CD;
+    background:lightgray;
+    
+}
