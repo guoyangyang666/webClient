@@ -10,7 +10,7 @@ import ReserveProcess from './ReserveProcess/ReserveProcess';//预约流程
 import NewsList from './News/NewsList';//新闻列表
 import HeaderInfo from './HeaderInfo';//网页头部
 import FooterInfo from './FooterInfo';//网页尾部
-import EquipLeftBar from './IndexBrowse/EquipLeftBar';//设备展示页
+import EquipLeft from './IndexBrowse/EquipLeft';//设备展示页
 import ContactMe from './ContactMe/ContactMe';//联系我们
 //首页
 const Home = React.createClass({
@@ -65,7 +65,7 @@ const Home = React.createClass({
          this.state.jumpIndex = <NewsList/>;
         }
         if(this.props.id=='EquipLeftBar'){  //设备
-         this.state.jumpIndex = <EquipLeftBar/>;
+         this.state.jumpIndex = <EquipLeft/>;
         }
         if(this.props.id=='ContactMe'){  //设备
          this.state.jumpIndex = <ContactMe/>;
