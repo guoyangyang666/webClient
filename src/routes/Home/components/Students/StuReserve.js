@@ -60,9 +60,10 @@ const StuReserve = React.createClass({
   render() {
     return (
       <div>
+      
         <div className="center_news">
           <div className="center_news_left">
-            <div>学生预约服务</div>
+            <div>学生预约服务</div>	
             <Menu onClick={this.handleClick}
             defaultSelectedKeys={['StuReserveIntroduce']}
               mode="inline"
