@@ -60,6 +60,7 @@ const StuReserve = React.createClass({
   render() {
     return (
       <div>
+
         <div className="center_news">
           <div className="center_news_left">
             <div className="about_tab">学生预约服务</div>
