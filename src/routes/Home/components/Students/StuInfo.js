@@ -1,8 +1,9 @@
 import React from 'react';
 import { Link, browserHistory, hashHistory } from 'react-router';
-import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox,Select } from 'antd';
+import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox,Select,Radio } from 'antd';
 const FormItem = Form.Item;
 const Option = Select.Option;
+const RadioGroup = Radio.Group;
 const Message = Form.create()(React.createClass({
   getInitialState() {
     return {
@@ -78,88 +79,33 @@ const Message = Form.create()(React.createClass({
       <Row>
         <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'5%'}}>学生基本信息维护</p>
       </Row>
-      <Form horizontal>
-        <FormItem
-        {...formItemLayout}
-        label="学生学号："
-        hasFeedback
-      >
-        <Input type="text" value={this.state.id}
-         />
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="学生姓名："
-        hasFeedback
-      >
-          <Input type="text" value={this.state.stu_name}
-           />
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="学生性别："
-        hasFeedback
-      >
-          <Input type="text" value={this.state.stu_sex == 1 ? '男' : '女'}
-           />
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="出生年月："
-        hasFeedback
-      >
-          <Input type="text" value={this.state.stu_birth}
-           />
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="身份证号："
-        hasFeedback
-      >
-          <Input type="text" value={this.state.stu_cardnum}
-           />
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="所在学院："
-        hasFeedback
-      >
-          <Input type="text" value={this.state.college_name}
-           />
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="所在专业："
-        hasFeedback
-      >
-          <Input type="text" value={this.state.dept_name}
-          />
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="所在班级："
-        hasFeedback
-      >
-          <Input type="text" value={this.state.class_name}
-           />
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="所在年级："
-        hasFeedback
-      >
-          <Input type="text" value={this.state.grade_name}
-           />
-      </FormItem>
-      <FormItem
-        {...formItemLayout}
-        label="学生简介："
-        hasFeedback
-      >
-          <Input type="text" value={this.state.stu_desc}
-           />
-      </FormItem>
-      </Form>
+      <div style={{width:'90%',margin:'0 auto'}}>
+        <Row >
+          <Col span={12}>学生学号：{this.state.id}</Col>
+          <Col span={12}>学生姓名：{this.state.stu_name}</Col>
+        </Row>
+        <Row >
+          <Col span={12}>学生性别：
+            <RadioGroup value={this.state.stu_sex}>
+              <Radio value='1'>男</Radio>
+              <Radio value='2'>女</Radio>
+            </RadioGroup>
+          </Col>
+          <Col span={12}>出生年月：{this.state.stu_birth}</Col>
+        </Row>
+        <Row >
+          <Col span={12}>身份证号：{this.state.stu_cardnum}</Col>
+          <Col span={12}>所在学院：{this.state.college_name}</Col>
+        </Row>
+        <Row >
+          <Col span={12}>所在专业：{this.state.dept_name}</Col>
+          <Col span={12}>所在班级：{this.state.class_name}</Col>
+        </Row>      
+        <Row >
+          <Col span={12}>所在年级：{this.state.grade_name}</Col>
+          <Col span={12}>学生简介：{this.state.stu_desc}</Col>
+        </Row>
+      </div>
       </div>
     );
 

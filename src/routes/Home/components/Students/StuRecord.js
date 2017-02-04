@@ -47,11 +47,13 @@ var Message = React.createClass({
    },
   cancel(record){
     var id = record.id;
-    var experim_num = Integer.parseInt(record.experim_num)-1;//预约的人数
+    var course_time_id = record.course_time_id;//
+    var experim_num = record.experim_num-1;//预约的人数
     this.setState({
       visible: true,
       id:id,
-      experim_num:experim_num,
+     experim_num:experim_num,
+     course_time_id:course_time_id,
       value:'',
     })
   },
@@ -74,7 +76,8 @@ var Message = React.createClass({
         "id": self.state.id,//编号
         "stu_id": localStorage.getItem('number'),//学生学号
         "cancel_reason":self.state.value,//取消的原因
-        "experim_num":experim_num,//预约人数减1
+        "experim_num":this.state.experim_num,//预约人数减1
+        "course_time_id":this.state.course_time_id,//预约的id(实验室时间表)t_course_time
       },
       async:true
     },function(response){
@@ -200,6 +203,7 @@ var Message = React.createClass({
             var appoint_week = labEquipRecord.appoint_week;//第几周
             var stu_id = labEquipRecord.stu_id;//学生学号
             var stu_name = labEquipRecord.stu_name;//学生姓名
+            var course_time_id = labEquipRecord.course_time_id;//预约的id(实验室时间表)t_course_time
             if(labEquipRecord.status == '1'){
               var status = '审核成功';//状态，1为预约成功，2为审核中，3为取消
             }else if(labEquipRecord.status == '2'){
@@ -222,6 +226,7 @@ var Message = React.createClass({
               appoint_week:appoint_week,//第几周
               stu_id:stu_id,//学生学号
               stu_name:stu_name,//学生姓名
+              course_time_id:course_time_id,//预约的id(实验室时间表)t_course_time
               status:status,
             });
           }else {
@@ -244,6 +249,7 @@ var Message = React.createClass({
               var appoint_week = labEquipRecord[i].appoint_week;//第几周
               var stu_id = labEquipRecord[i].stu_id;//学生学号
               var stu_name = labEquipRecord[i].stu_name;//学生姓名
+              var course_time_id = labEquipRecord[i].course_time_id;//预约的id(实验室时间表)t_course_time
               if(labEquipRecord[i].status == '1'){
                 var status = '审核成功';//状态，1为预约成功，2为审核中，3为取消
               }else if(labEquipRecord[i].status == '2'){
@@ -266,8 +272,10 @@ var Message = React.createClass({
                 appoint_week:appoint_week,//第几周
                 stu_id:stu_id,//学生学号
                 stu_name:stu_name,//学生姓名
+                course_time_id:course_time_id,//预约的id(实验室时间表)t_course_time
                 status:status,
               });
+              console.log("ceshi",experim_num);
             }
           }
     return (

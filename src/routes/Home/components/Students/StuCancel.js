@@ -36,32 +36,29 @@ var Message = React.createClass({
        //console.log("e..." , e);
      });
     },
-  handleAdd(){
-    $history.push("/LabEquipAdd");
-  },
-  editEquip(record){
-    $history.push("/LabEquipEdit/" + record.id);
-  },
-  deleteEquip(record){
+  delete(record){
     const self = this;
-    var url = $CONTEXT_ADDR + '/labAdmin/deleteLabInfo.do';
+    var url = $CONTEXT_ADDR + '/students/deleteAppointList.do';
     console.log(record.id);
     $ajax.get({
       type: "POST",
       url: url,
       dataType: "json",
       data : {
-        "id": record.id,//实验室编号
-        "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号id
+        "id": record.id,//
       },
       async:true
     },function(response){
-
-
-
-       // for(var i=0; i<res.length; i++){
-       //   var labEquipRecord = res[i];
-       // }
+      if(response[0].code == 1){
+        Modal.success({
+          title:'删除成功',
+        })
+        self.qryVaccinationHistion();
+      }else {
+        Modal.error({
+          title:'删除失敗',
+        })
+      }
        self.setState({
 
        });
