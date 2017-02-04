@@ -56,7 +56,7 @@ const LabAdmin = React.createClass({
       <div>
         <div className="center_news">
           <div className="center_news_left">
-            <div>实验室管理员服务</div>
+            <div className="about_tab">实验室管理员服务</div>
             <Menu onClick={this.handleClick}
             defaultSelectedKeys={['LabIntroduce']}
               mode="inline"

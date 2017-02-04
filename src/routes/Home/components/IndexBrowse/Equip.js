@@ -22,10 +22,10 @@ const SingleEquip = React.createClass({
         	<div className='equip_list_img'>
         	<img src={$CONTEXT_ADDR+equip_image_one}/>
         	<div className='equip_mask'></div>
-        	</div> 
+        	</div>
           <p className='equip_list_p1'>{equip_name}</p>
           <p className='equip_list_p2'>放置地点:&nbsp;{laboratory_adress}&nbsp;&nbsp;{laboratory_adressnum}</p>
-         
+
         </div>
     )
   }
@@ -53,7 +53,6 @@ const Equip = React.createClass({
       async:true
     },function(response){
        var equip = response;
-       console.log("equip11111",equip);
        self.setState({
          equip:equip,
        });
@@ -76,8 +75,6 @@ const Equip = React.createClass({
       var laboratory_id = equip[i].laboratory_id;
       var laboratory_adress = equip[i].laboratory_adress;
       var laboratory_adressnum = equip[i].laboratory_adressnum;
-      console.log("aaaaaa",equip_image_one);
-      console.log($CONTEXT_ADDR+equip_image_one);
       recordList.push({key : i, content : <SingleEquip  equip_id={equip_id} equip_name={equip_name}
         equip_image_one={equip_image_one} laboratory_id={laboratory_id} laboratory_adress={laboratory_adress} laboratory_adressnum={laboratory_adressnum}/>});
     }

@@ -3,6 +3,7 @@ import { Link, browserHistory, hashHistory } from 'react-router';
 import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox } from 'antd';
 import NavigationBar from './NavigationBar';
 import LoginDesc from './LoginDesc';
+
 var Message = React.createClass({
   render() {
     return (

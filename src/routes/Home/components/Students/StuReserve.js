@@ -26,7 +26,7 @@ const StuReserve = React.createClass({
   },
   queryBasicInfo() {
     const self = this;
-    
+
   },
   handleClick(e) {
     console.log('click ', e);
@@ -62,7 +62,7 @@ const StuReserve = React.createClass({
       <div>
         <div className="center_news">
           <div className="center_news_left">
-            <div>学生预约服务</div>
+            <div className="about_tab">学生预约服务</div>
             <Menu onClick={this.handleClick}
             defaultSelectedKeys={['StuReserveIntroduce']}
               mode="inline"

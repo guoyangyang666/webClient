@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, browserHistory, hashHistory } from 'react-router';
-import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox } from 'antd';
+import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox,Select } from 'antd';
+const Option = Select.Option;
 var Message = React.createClass({
   getInitialState(){
       return{
@@ -8,6 +9,7 @@ var Message = React.createClass({
         equip_name:'',
         storage_time:'',
         labEquipRecord:[],//列表
+        selectedRowKeys: [],  // Check here to configure the default column
       };
     },
 
@@ -77,6 +79,14 @@ var Message = React.createClass({
     this.qryVaccinationHistion();
 
   },
+  onSelectChange(selectedRowKeys) {
+    console.log('selectedRowKeys changed: ', selectedRowKeys);
+    this.setState({ selectedRowKeys });
+  },
+  handleChange(value) {
+    console.log(`selected ${value}`);
+  },
+
   render() {
     const columns = [
       {
@@ -111,17 +121,10 @@ var Message = React.createClass({
         dataIndex: 'status',
         key: 'status',
         },
-            { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 150,
-            render: (text, record, index) => (
-              <span>
-               <a onClick={() => this.editEquip(record)}>审批</a>
-             </span>
-              ),
-          },
           ];
 
           const data = [{
-            key: '1',
+            key: '11',
             name: '1010',
             age: '网络实验室',
             time:'周二 1-2',
@@ -166,20 +169,41 @@ var Message = React.createClass({
         });
       }
     }
+    const { selectedRowKeys } = this.state;
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: this.onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
     return (
       <div style={{clear:'none',paddingTop:'5%'}}>
       <Row>
         <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'3%'}}>预约记录</p>
       </Row>
         <div>
-
-          <Table columns={columns}  dataSource={data}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <div style={{ marginBottom: 16 }}>
+            <Button type="primary"
+              disabled={!hasSelected}
+            >审批</Button>
+            <span style={{ marginLeft: 8 }}>{hasSelected ? `已选 ${selectedRowKeys.length} 条` : ''}</span>
+            <span style={{float:'right'}}>
+              <Select defaultValue="请选择实验名" style={{ width: 120 }} onChange={this.handleChange}>
+                <Option value="jack">Jack</Option>
+                <Option value="lucy">Lucy</Option>
+                <Option value="disabled" disabled>Disabled</Option>
+                <Option value="Yiminghe">yiminghe</Option>
+              </Select>
+              <Select defaultValue="请选择批次" style={{ width: 120 }} onChange={this.handleChange}>
+                <Option value="jack">Jack</Option>
+                <Option value="lucy">Lucy</Option>
+                <Option value="disabled" disabled>Disabled</Option>
+                <Option value="Yiminghe">yiminghe</Option>
+              </Select>
+            </span>
+          </div>
+          <Table columns={columns} rowSelection={rowSelection}  dataSource={data}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
         </div>
       </div>
-
-
-
-
     );
 
   }

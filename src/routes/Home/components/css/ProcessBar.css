@@ -191,7 +191,7 @@
 .ant-tabs-vertical.ant-tabs-left .ant-tabs-tab .ant-tabs-tab-inner{
   text-align: center;
 }
-.about_tab{
+/*.about_tab{
   height: 40px;
   width: 252px;
   line-height: 40px;
@@ -202,8 +202,8 @@
   background-color: #1b76cd;
   z-index: 100;
   position: relative;
-
-}
+  text-align: center;
+}*/
 .center_news_right{
   width: 848px;
 	//height: auto;

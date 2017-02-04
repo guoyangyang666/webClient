@@ -32,10 +32,7 @@ var Message = React.createClass({
        async:true
      },function(response){
         var labEquipRecord = response;
-
-        // for(var i=0; i<res.length; i++){
-        //   var labEquipRecord = res[i];
-        // }
+        console.log("接收的到值",labEquipRecord);
         self.setState({
           labEquipRecord:labEquipRecord,//列表
         });
@@ -61,7 +58,7 @@ var Message = React.createClass({
   deleteEquip(record){
     const self = this;
     var url = $CONTEXT_ADDR + '/labAdmin/deleteExperimbatchs.do';
-    console.log(record.id);
+    console.log("ID的值",record.id);
     $ajax.get({
       type: "POST",
       url: url,
@@ -130,6 +127,7 @@ var Message = React.createClass({
       });
     }else {
       for (var i = 0; i < labEquipRecord.length; i++) {
+
         var id = labEquipRecord[i].id;//设备编号id
         var laboratory_name = labEquipRecord[i].laboratory_name;//设备名称
         var experim_name = labEquipRecord[i].experim_name;//入库时间

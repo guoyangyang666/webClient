@@ -51,18 +51,18 @@ const ReserveProcess = React.createClass({
                fontSize:24
                },
         };
-        if(this.props.barId == undefined){
-          console.log("111111");
-         this.state.jumpIndex = <BeginnerGuide/>;
-        }
-
-        if(this.props.barId=='BeginnerGuide'){  //新手指南
-          console.log("2222");
-         this.state.jumpIndex = <BeginnerGuide/>;
-        }
-        if(this.props.barId=='AppointNotice'){
-          this.state.jumpIndex = <AppointNotice/>;//预约须知
-        }
+        // if(this.props.barId == undefined){
+        //   console.log("111111");
+        //  this.state.jumpIndex = <BeginnerGuide/>;
+        // }
+        //
+        // if(this.props.barId=='BeginnerGuide'){  //新手指南
+        //   console.log("2222");
+        //  this.state.jumpIndex = <BeginnerGuide/>;
+        // }
+        // if(this.props.barId=='AppointNotice'){
+        //   this.state.jumpIndex = <AppointNotice/>;//预约须知
+        // }
     return (
       <div>
         <div className="center_news">
