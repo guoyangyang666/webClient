@@ -17,6 +17,32 @@ class LabEquipAdd extends React.Component {
       size: 'default',
     };
   }
+
+  componentWillMount() {
+     this.qryVaccinationHistion();
+    }
+    qryVaccinationHistion() {
+     const self = this;
+     var url = $CONTEXT_ADDR + '/labAdmin/quryExperimbatchsName.do';
+     $ajax.get({
+       type: "POST",
+       url: url,
+       dataType: "json",
+       data : {
+         "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号
+       },
+       async:true
+     },function(response){
+        var Record = response;
+        console.log("接收的到值111",Record);
+        self.setState({
+          Record:Record,//列表
+        });
+
+     },function(e){
+       //console.log("e..." , e);
+     });
+    }
   getValidateStatus(field) {
     const { isFieldValidating, getFieldError, getFieldValue } = this.props.form;
 
@@ -89,15 +115,15 @@ class LabEquipAdd extends React.Component {
   render() {
     const self = this;
     const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
-    const experim_name = getFieldProps('experim_name', {
+    const experim_id = getFieldProps('experim_id', {
       rules: [
-        { required: true, min: 1, message: '实验批次名不能为空' },
+        { required: true, min: 1, message: '实验批次名' },
       ],
-      initialValue:self.props.experim_name
+      initialValue:self.props.experim_id
     });
     const batch = getFieldProps('batch', {
       rules: [
-        { required: true, min: 1, message: '实验批次不能为空' },
+        { required: true, min: 1, message: '实验批次' },
       ],
       initialValue:self.props.batch
     });
@@ -118,7 +144,11 @@ class LabEquipAdd extends React.Component {
       labelCol: { span: 7 },
       wrapperCol: { span: 12 },
     };
-
+    var Record = self.state.Record;
+    var batchName =
+          Record.map((item) => {
+          return <Option value={item.id} >{item.experim_name}</Option>
+          })
     return (
       <Form horizontal form={this.props.form}>
         <Row>
@@ -127,7 +157,9 @@ class LabEquipAdd extends React.Component {
               {...formItemLayout}
               label="实验项目名："
               hasFeedback>
-              <Input {...experim_name} placeholder="...实验" />
+              <Select {...experim_id}>
+                {batchName}
+              </Select>
             </FormItem>
           </Col>
           <Col span={12}>
@@ -141,7 +173,7 @@ class LabEquipAdd extends React.Component {
                 <Option value="批次三">批次三</Option>
                 <Option value="批次四">批次四</Option>
                 <Option value="批次五">批次五</Option>
-                <Option value="批次六">批次六</Option>              
+                <Option value="批次六">批次六</Option>
               </Select>
             </FormItem>
           </Col>
