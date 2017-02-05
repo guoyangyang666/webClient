@@ -8,71 +8,129 @@ const Message = Form.create()(React.createClass({
     return {
       passwordDirty: false,
       loginPw:'',
+      id:'',//实验室编号
+      laboratory_name:'',//实验室名称
+      category_name:'',//实验室类别
+      laboratory_adress:'',//实验室地点
+      laboratory_adressnum:'',//实验室教室号
+      laboratory_renshu:'',//实验室容量
+      laboratory_desc:'',//实验室简介
     };
+  },
+  componentWillMount() {
+    this.queryBasicInfo();
   },
   queryBasicInfo() {
     const self = this;
-    var url = $CONTEXT_ADDR + '/labAdmin/addLabInfo.do';
+    var url = $CONTEXT_ADDR + '/labAdmin/quryLabInfo.do';
     $ajax.get({
       type: "POST",
       url: url,
       dataType: "json",
       data : {
-        "id": this.state.id,//登陆密码
-        "laboratory_name": this.state.laboratory_name,//登陆密码
-        "laboratory_adress": this.state.laboratory_adress,//登陆密码
-        "laboratory_adressnum": this.state.laboratory_adressnum,//登陆密码
-        "category_id": this.state.category_id,//登陆密码
-        "laboratory_desc": this.state.laboratory_desc,//登陆密码
-        "laboratory_renshu": this.state.laboratory_renshu,//登陆密码
-        "staff_id": localStorage.getItem('number'),//号
+        "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号
       },
       async:true
     },function(response){
-      var res = response;
-      if(res.length == "0"){
-        Modal.success({
-          title: '密码修改失败',
-          content: '返回',
-        });
-      }else {
-        Modal.success({
-          title: '密码修改成功',
-          content: '确认',
-        });
-      }
+      var res = response[0];
+      var id = res.id;//实验室编号
+      var laboratory_name = res.laboratory_name;//实验室名称
+      var category_name = res.category_name;//实验室类别
+      var laboratory_adress = res.laboratory_adress;//实验室地点
+      var laboratory_adressnum = res.laboratory_adressnum;//实验室教室号
+      var laboratory_renshu = res.laboratory_renshu;//实验室容量
+      var laboratory_desc = res.laboratory_desc;//实验室简介
       self.setState({
-        loginPw:loginPw,
-        loginName:loginName,//用户名
+        id:id,//实验室编号
+        laboratory_name:laboratory_name,//实验室名称
+        category_name:category_name,//实验室类别
+        laboratory_adress:laboratory_adress,//实验室地点
+        laboratory_adressnum:laboratory_adressnum,//实验室教室号
+        laboratory_renshu:laboratory_renshu,//实验室容量
+        laboratory_desc:laboratory_desc,//实验室简介
+      });
+    },function(e){
+      //console.log("e..." , e);
+    });
+  },
+  changeLabInfo(values){
+    const self = this;
+    console.log('values',values.laboratory_adress);
+    var url = $CONTEXT_ADDR + '/labAdmin/changeLabInfo.do';
+    $ajax.get({
+      type: "POST",
+      url: url,
+      dataType: "json",
+      data : {
+        laboratory_adress:values.laboratory_adress,
+        laboratory_adressnum:values.laboratory_adressnum,
+        laboratory_renshu:values.laboratory_renshu,
+        laboratory_desc:values.laboratory_desc,
+        "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号
+      },
+      async:true
+    },function(response){
+      console.log(response);
+      var res = response;
+     if(res[0].code == '1'){
+       Modal.success({
+         title: '修改成功',
+       });
+     }else {
+       Modal.error({
+         title: '修改失败',
+       });
+     }
+      self.setState({
       });
     },function(e){
       //console.log("e..." , e);
     });
   },
   handleSubmit(e) {
-     e.preventDefault();
-     if(this.state.id == null){
-       Modal.warning({
-         title: '实验室编号为空',
-         content: '请输入实验室编号',
-       });
-     }else if(this.state.laboratory_name == null) {
-       Modal.warning({
-         title: '实验室名称为空',
-         content: '请输入实验室名称',
-       });
-     }else{
-          this.queryBasicInfo();
-     }
-   },
-   handleChange: function(name, event){
-     var newState = {};
-     newState[name] = event.target.value;
-     this.setState(newState);
-     console.log(event.target.value);
-   },
+    const self = this;
+    var values;
+    e.preventDefault();
+    this.props.form.validateFields((errors, filedsValue) => {
+      if (!!errors) {
+        Modal.error({
+          title:"",
+          content:"请填写表单必填项",
+          okText:"确定"
+        })
+        return;
+      }
+      values={
+        ...filedsValue,
+      }
+       self.changeLabInfo(values);
+    });
+  },
 
   render() {
+    const self = this;
+    const { getFieldProps, getFieldError, isFieldValidating } = this.props.form;
+    const laboratory_adress = getFieldProps('laboratory_adress', {
+      rules: [
+        { required: true, min: 1, message: '实验室地点不能为空' },
+      ],
+      initialValue:self.state.laboratory_adress
+    });
+    const laboratory_adressnum = getFieldProps('laboratory_adressnum', {
+      rules: [
+        { required: true, min: 1, message: '实验室教室号不能为空' },
+      ],
+      initialValue:self.state.laboratory_adressnum
+    });
+    const laboratory_renshu = getFieldProps('laboratory_renshu', {
+      // rules: [
+      //   { required: true, min: 1, message: '实验室容量不能为空' },
+      // ],
+      initialValue:self.state.laboratory_renshu
+    });
+    const laboratory_desc = getFieldProps('laboratory_desc', {
+      initialValue:self.state.laboratory_desc
+    });
     const formItemLayout = {
           labelCol: { span: 6 },
           wrapperCol: { span: 14 },
@@ -88,65 +146,58 @@ const Message = Form.create()(React.createClass({
       <Row>
         <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'5%'}}>实验室基本信息维护</p>
       </Row>
-      <Form horizontal onSubmit={this.handleSubmit}>
+      <Form horizontal form={this.props.form} onSubmit={this.handleSubmit}>
         <FormItem
         {...formItemLayout}
         label="实验室编号："
         hasFeedback
       >
-        <Input type="text" value={this.state.id}
-         onChange={this.handleChange.bind(this,'id')}/>
+        <Input placeholder="请输入实验室编号" value={this.state.id}/>
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="实验室名称："
         hasFeedback
       >
-          <Input type="password" value={this.state.laboratory_name}
-           onChange={this.handleChange.bind(this,'laboratory_name')}/>
+          <Input value={this.state.laboratory_name} placeholder="请输入实验室名称" />
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="实验室类别："
         hasFeedback
       >
-          <Input type="password" value={this.state.category_id}
-           onChange={this.handleChange.bind(this,'category_id')}/>
+          <Input value={this.state.category_name} placeholder="请输入实验室类别"/>
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="地点："
         hasFeedback
       >
-          <Input type="password" value={this.state.laboratory_adress}
-           onChange={this.handleChange.bind(this,'laboratory_adress')}/>
+          <Input {...laboratory_adress} placeholder="请输入地点"/>
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="教室号："
         hasFeedback
       >
-          <Input type="password" value={this.state.laboratory_adressnum}
-           onChange={this.handleChange.bind(this,'laboratory_adressnum')}/>
+          <Input {...laboratory_adressnum} placeholder="请输入教室号"/>
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="容量："
         hasFeedback
       >
-          <Input type="password" value={this.state.laboratory_renshu}
-           onChange={this.handleChange.bind(this,'laboratory_renshu')}/>
+          <Input {...laboratory_renshu} placeholder="请输入容量"/>
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="简介："
         hasFeedback
       >
-          <Input type="password" value={this.state.laboratory_desc}
-           onChange={this.handleChange.bind(this,'laboratory_desc')}/>
+          <Input {...laboratory_desc} placeholder="请输入简介"/>
       </FormItem>
         <FormItem {...tailFormItemLayout}>
-         <Button type="primary" htmlType="submit" size="large">确认提交</Button>
+         <Button type="primary" htmlType="submit"  size="large" >确认修改</Button>
        </FormItem>
       </Form>
       </div>
