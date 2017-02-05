@@ -152,21 +152,21 @@ const Message = Form.create()(React.createClass({
         label="实验室编号："
         hasFeedback
       >
-        <Input placeholder="请输入实验室编号" value={this.state.id}/>
+      <Input value={this.state.id}  disabled='true'/>
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="实验室名称："
         hasFeedback
       >
-          <Input value={this.state.laboratory_name} placeholder="请输入实验室名称" />
+      <Input value={this.state.laboratory_name}  disabled='true'/>
       </FormItem>
       <FormItem
         {...formItemLayout}
         label="实验室类别："
         hasFeedback
       >
-          <Input value={this.state.category_name} placeholder="请输入实验室类别"/>
+      <Input value={this.state.category_name}  disabled='true'/>
       </FormItem>
       <FormItem
         {...formItemLayout}
