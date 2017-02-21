@@ -5,7 +5,7 @@
     "index": "./src/entry/index.jsx"
   },
   "dependencies": {
-    "antd": "0.12.x",
+    "antd": "^2.5.2",
     "atool-build": "0.6.x",
     "babel-plugin-antd": "0.2.x",
     "fetch": "^1.0.1",

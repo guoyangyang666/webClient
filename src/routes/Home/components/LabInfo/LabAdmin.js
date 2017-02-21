@@ -85,10 +85,7 @@ const LabAdmin = React.createClass({
             </Menu.Item>
             <Menu.Item key="UpdatePassword" className="menu">
               <span className="nav-text">修改个人登陆密码</span>
-            </Menu.Item>
-            <Menu.Item key="uploadLabData" className="menu">
-              <span className="nav-text">上传实验资料</span>
-            </Menu.Item>
+            </Menu.Item>          
             </Menu>
           </div>
           <div className="center_news_right">

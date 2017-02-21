@@ -49,7 +49,8 @@ class LabEquipAdd extends React.Component {
   }
   queryBasicInfo(values) {
     const self = this;
-    var url = $CONTEXT_ADDR + '/labAdmin/addEquip.do';
+    console.log("添加的值",values);
+    var url = $CONTEXT_ADDR + '/labAdmin/queryLabInfo.do';//先查找是否有该编号
     $ajax.get({
       type: "POST",
       url: url,
@@ -57,12 +58,42 @@ class LabEquipAdd extends React.Component {
       data : values,
       async:true
     },function(response){
-      console.log("12234");
       var res = response;
-      console.log(res);
+      console.log("lallaal",res.length);
+      if(res.length=='0'){
+        var url = $CONTEXT_ADDR + '/labAdmin/addEquip.do';
+        $ajax.get({
+          type: "POST",
+          url: url,
+          dataType: "json",
+          data : values,
+          async:true
+        },function(response){
+          var res = response[0];
+          if(res.code=='1'){
+            Modal.success({
+              title:res.res,
+            })
+
+          }else{
+            Modal.error({
+              title:res.res,
+            })
+          }
+          self.setState({
+
+
+          });
+        },function(e){
+          //console.log("e..." , e);
+        });
+      }else{
+        Modal.error({
+          title:'已有该设备号',
+        })
+      }
       self.setState({
-        loginPw:loginPw,
-        loginName:loginName,//用户名
+
       });
     },function(e){
       //console.log("e..." , e);
@@ -137,7 +168,7 @@ class LabEquipAdd extends React.Component {
       rules: [
         { required: true, min: 1, message: '设备编号不能为空' },
       ],
-      initialValue:self.props.equip_id
+      initialValue:self.props.id
     });
     const equip_name = getFieldProps('equip_name', {
       rules: [
@@ -162,7 +193,7 @@ class LabEquipAdd extends React.Component {
       wrapperCol: { span: 12 },
     };
     const equip_image_one = {
-      action:  $CONTEXT_ADDR + '/image/singleuploadurl1111.do',
+      action:  $CONTEXT_ADDR + '/equip/imageUp.do',
       listType: 'picture-card',
       // defaultFileList: [{
       //   uid: -1,

@@ -288,7 +288,7 @@ var Message = React.createClass({
           onOk={this.handleOk} onCancel={this.handleCancel}>
           <div><Input size="large"  onChange={this.change} value={this.state.value} placeholder="请輸入取消的原因"/></div>
         </Modal>
-          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} />
         </div>
       </div>
 

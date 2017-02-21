@@ -12,6 +12,7 @@ import HeaderInfo from './HeaderInfo';//网页头部
 import FooterInfo from './FooterInfo';//网页尾部
 import EquipLeft from './IndexBrowse/EquipLeft';//设备展示页
 import ContactMe from './ContactMe/ContactMe';//联系我们
+import NoticeList from './IndexBrowse/NoticeList';//最新公告
 //首页
 const Home = React.createClass({
   getInitialState() {
@@ -67,8 +68,11 @@ const Home = React.createClass({
         if(this.props.id=='EquipLeftBar'){  //设备
          this.state.jumpIndex = <EquipLeft/>;
         }
-        if(this.props.id=='ContactMe'){  //设备
+        if(this.props.id=='ContactMe'){  //联系我们
          this.state.jumpIndex = <ContactMe/>;
+        }
+        if(this.props.id=='LabNoticeList'){  //最新公告
+         this.state.jumpIndex = <NoticeList/>;
         }
         if(this.props.id=='LoginDesc'){
           $history.push("LoginInfo");//登陆

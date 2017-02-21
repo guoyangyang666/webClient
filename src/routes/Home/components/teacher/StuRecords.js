@@ -168,7 +168,7 @@ var Message = React.createClass({
       </Row>
         <div>
 
-          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} />
         </div>
       </div>
 

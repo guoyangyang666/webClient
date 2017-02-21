@@ -97,14 +97,13 @@ var Message = React.createClass({
        dataIndex: 'laboratory_name',
        key: 'laboratory_name',
        },
-       { title: '操作', dataIndex: '', key: 'x', fixed: 'left',width: 150,
+       { title: '操作', key: 'x',
        render: (text, record, index) => (
          <span>
           <a onClick={() => this.cancelEquip(record)}>刪除</a>
         </span>
          ),
-       },
-          ];
+       }];
           var labEquipRecord = this.state.labEquipRecord;
           const dataList=[];
           if(labEquipRecord == undefined){
@@ -167,7 +166,7 @@ var Message = React.createClass({
       </Row>
         <div>
 
-          <Table columns={columns} dataSource={dataList} expandedRowRender={record => <p>取消原因：{record.description}</p>} bordered={true}  pagination={{ pageSize:4 }}  scroll={{ x: true, y: 300 }} />
+          <Table columns={columns} dataSource={dataList} expandedRowRender={record => <p>取消原因：{record.description}</p>} bordered={true}  pagination={{ pageSize:4 }} />
         </div>
       </div>
 

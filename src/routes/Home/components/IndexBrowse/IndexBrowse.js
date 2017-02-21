@@ -3,6 +3,27 @@ import { Link, browserHistory, hashHistory } from 'react-router';
 import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox } from 'antd';
 import LabNotice from './LabNotice';
 import Equip from './Equip';
+import TeacherAppoint from './TeacherAppoint';
+//预约信息单个列表
+const SingleAppoint = React.createClass({
+  getInitialState(){
+    return{
+      show:false,
+    };
+  },
+  render(){
+    const {id} = this.props;//唯一标识id
+    const {staff_name} = this.props;//教师名
+    const {experim_name} = this.props;//实验名
+    const {appoint_week} = this.props;//预约的周数
+    const {week} = this.props;//周几
+    const {start_times} = this.props;//开始的课时
+    const {stop_times} = this.props;//结束的课时
+    return(
+        <p><span>{staff_name}</span><span>成功预约</span><span>{experim_name}</span><span>{appoint_week}</span><span>{week}{start_times}-{stop_times}</span></p>
+    )
+  }
+});
 var Message = React.createClass({
   getInitialState() {
     return {
@@ -11,7 +32,54 @@ var Message = React.createClass({
        displayStatus1:'false',
     };
   },
+  componentWillMount(){
+    this.queryBasicInfo();
+  },
+  queryBasicInfo(){
+    const self = this;
+    var url = $CONTEXT_ADDR + '/teacher/quryTeacherAppoint.do';
+    $ajax.get({
+      type: "POST",
+      url: url,
+      dataType: "json",
+      data : {
+      },
+      async:true
+    },function(response){
+       var res = response;
+       console.log("res",res)
+       self.setState({
+         res:res,
+       });
+
+    },function(e){
+      //console.log("e..." , e);
+    });
+  },
+  teachterList(){
+    $history.push("/TeacherAppoint");
+  },
   render() {
+    const recordList =[];
+    var res = this.state.res;
+    console.log("res111",res);
+    if(res==''||res==undefined){
+      var centerMLeft=<div>zanwu</div>
+    }else{
+      for(var i=0; i<res.length; i++){
+        var id = res[i].id;
+        var experim_name = res[i].experim_name;
+        var appoint_week = "第"+res[i].appoint_week+"周";
+        var week = "星期"+res[i].week;
+        var stop_times = res[i].stop_times+"节";
+        var start_times = "第"+res[i].start_times+"节";
+        var staff_name = res[i].staff_name;
+        recordList.push({key : i, content : <SingleAppoint id={id} staff_name={staff_name}
+          experim_name={experim_name} appoint_week={appoint_week} week={week}
+          start_times={start_times} stop_times={stop_times}/>});
+      }
+    }
+
     var cauous = <div>
                   <div className="cauous-content">
                     <Carousel autoplay dots='false' className="cauous">
@@ -50,17 +118,18 @@ var Message = React.createClass({
                 </ul>
               </div>
             </div>;
-      var centerMLeft = <div>
-                <div className="centerM_left">
-                  <div className="centerM_left_title">实验室预订信息</div>
-                  <p><span>张晓婷</span><span>成功预约</span><span>比表面积孔径分析仪</span><span>2016-12-29</span><span>08:00--16:00</span></p>
-                  <p><span>郭洋洋</span><span>成功预约</span><span>比表面积孔径分析仪</span><span>2016-12-29</span><span>08:00--16:00</span></p>
-                  <p><span>丁宇</span><span>成功预约</span><span>比表面积孔径分析仪</span><span>2016-12-29</span><span>08:00--16:00</span></p>
-                  <p><span>张明月</span><span>成功预约</span><span>比表面积孔径分析仪</span><span>2016-12-29</span><span>08:00--16:00</span></p>
-                  <p><span>王小红</span><span>成功预约</span><span>比表面积孔径分析仪</span><span>2016-12-29</span><span>08:00--16:00</span></p>
-                  <p><span>王小兰</span><span>成功预约</span><span>比表面积孔径分析仪</span><span>2016-12-29</span><span>08:00--16:00</span></p>
-                </div>
-              </div>;
+            var centerMLeft = <div>
+                      <div className="centerM_left">
+                          <div className="centerM_left_title">实验室预订信息</div>
+                          <Button onClick={this.teachterList} type="primary" style={{marginTop:'-10%',marginRight:'20%'}}  className="centerM_right_more">更多</Button>
+
+                          {recordList.map(map => (
+                          <div key={map.key}>
+                            {map.content}
+                          </div>
+                        ))}
+                      </div>
+                    </div>;
     return (
       <div>
         <Row>

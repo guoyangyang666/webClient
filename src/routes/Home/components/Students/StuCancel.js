@@ -222,7 +222,7 @@ var Message = React.createClass({
       </Row>
         <div>
 
-          <Table columns={columns} expandedRowRender={record => <p>取消原因：{record.description}</p>}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <Table columns={columns} expandedRowRender={record => <p>取消原因：{record.description}</p>}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} />
         </div>
       </div>
 

@@ -95,18 +95,17 @@ var Message = React.createClass({
   render() {
     const columns = [
             { title: '实验室', width: 100, dataIndex: 'laboratory_name', key: 'laboratory_name', fixed: 'left' },
-            { title: '实验名', width: 100, dataIndex: 'experim_name', key: 'equip_name', fixed: 'left' },
+            { title: '实验名', width: 200, dataIndex: 'experim_name', key: 'equip_name', fixed: 'left' },
             { title: '实验批次', width: 100, dataIndex: 'batch', key: 'batch', fixed: 'left' },
             { title: '开始周', width: 100, dataIndex: 'start_week', key: 'start_week', fixed: 'left' },
             { title: '结束周', width: 100, dataIndex: 'last_week', key: 'last_week', fixed: 'left' },
-            { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 150,
+            { title: '操作',  key: 'operation',
             render: (text, record, index) => (
               <span>
                <a onClick={() => this.deleteEquip(record)}>删除</a>
              </span>
               ),
-          },
-          ];
+          }];
     var labEquipRecord = this.state.labEquipRecord;
     const dataList=[];
     if(labEquipRecord == undefined){
@@ -155,7 +154,7 @@ var Message = React.createClass({
       </Row>
         <div className={listStatus ? "list_equip" : "list_equip1"}>
           <Button className="editable-add-btn" type="ghost" onClick={this.handleAdd}>添加</Button>
-          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} />
         </div>
         <div className={addStatus ? "add_equip" : "add_equip1"}>
           <Button className="editable-add-btn" type="ghost" onClick={this.handleBack}>返回</Button>

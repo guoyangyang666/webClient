@@ -1,5 +1,5 @@
 import React from 'react'
-import {Row, Col,Tooltip,Carousel,Menu, Icon,Table,Modal,Affix, Button,Input,BackTop, } from 'antd';
+import {Row, Col,Tooltip,Carousel,Menu, Icon,Table,Modal,Affix, Button,Input,BackTop,Card,Pagination } from 'antd';
 //设备单个列表
 const SingleContact = React.createClass({
   getInitialState(){
@@ -15,15 +15,12 @@ const SingleContact = React.createClass({
     const {staff_name} = this.props;//实验室管理员
     const {staff_phone} = this.props;//实验室管理员联系方式
     return(
-      <div className='card'>
-        <div className='cardMargin'>
-          <p><span className='attr'>实验室名</span><span> {laboratory_name}</span></p>
-          <p><span className='attr'>地址</span><span> {laboratory_adress}</span></p>
-          <p><span className='attr'>实验室门牌号</span><span> {laboratory_adressnum}</span></p>
-          <p><span className='attr'>实验室管理员</span><span> {staff_name}</span></p>
-          <p><span className='attr'>联系方式</span><span> {staff_phone}</span></p>
-        </div>
-      </div>
+      <Card title={laboratory_name} style={{ width: '31%',float:'left',marginLeft:'2%',marginTop:'2%' }}>
+      <p>实验室地址：{laboratory_adress}</p>
+      <p>实验室门牌号：{laboratory_adressnum}</p>
+      <p>实验室管理员：{staff_name}</p>
+      <p>管理员联系方式：{staff_phone}</p>
+    </Card>
     )
   }
 });
@@ -32,6 +29,9 @@ const ContactMe = React.createClass({
   getInitialState(){
     return{
       contact:[],
+      current: 1,//当前页是1
+      pageSize:9,
+      totalRecord:'',
     };
   },
   componentWillMount(){
@@ -45,26 +45,37 @@ const ContactMe = React.createClass({
       url: url,
       dataType: "json",
       data : {
-
+        current:self.state.current,//当前点的第几页
+        pageSize:self.state.pageSize,//显示多少页
       },
       async:true
     },function(response){
        var contact = response;
-       console.log("1111",contact.length);
+       console.log("contact",contact);
+       var total = contact[contact.length-1];
+       var totalRecord = total.totalRecord;
        self.setState({
          contact:contact,
+         totalRecord:totalRecord,
        });
 
     },function(e){
       //console.log("e..." , e);
     });
   },
-
+  onChange(page) {
+    const self=this;
+    this.setState({
+      current: page,
+    },function () {
+      self.queryBasicInfo();
+    }  );
+  },
 
   render(){
     const recordList =[];
     var contact = this.state.contact;
-    for(var i = 0; i<contact.length ;i++){
+    for(var i = 0; i<contact.length-1 ;i++){
       var laboratory_name = contact[i].laboratory_name;//实验室名
       var laboratory_adress = contact[i].laboratory_adress;//实验室地址
       var laboratory_adressnum = contact[i].laboratory_adressnum;//实验室门牌号
@@ -83,7 +94,10 @@ const ContactMe = React.createClass({
                  </div>
                ))}
             </div>
-
+            <div style={{margin:'auto',width:'30%',paddingBottom:'30',paddingTop:'20'}}>
+                <Pagination current={this.state.current} onChange={this.onChange} total={this.state.totalRecord} pageSize={this.state.pageSize} showTotal={total => `总共 ${total} 条`}>
+                </Pagination>
+            </div>
           </div>
         </div>
     )

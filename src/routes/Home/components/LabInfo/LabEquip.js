@@ -14,6 +14,7 @@ var Message = React.createClass({
         equip_name:'',
         storage_time:'',
         labEquipRecord:[],//列表
+        add:true,//添加还是编辑
       };
     },
 
@@ -55,20 +56,35 @@ var Message = React.createClass({
     // $history.push("/LabEquipAdd");
   },
   handleBack(){
-    this.setState({
-      listStatus: !this.state.listStatus,
-      addStatus: !this.state.addStatus,
-    })
+    if(this.state.add==false){
+      this.setState({
+        add:!this.state.listStatus,
+        listStatus: !this.state.listStatus,
+        addStatus: !this.state.addStatus,
+      })
+    }else{
+      this.setState({
+        listStatus: !this.state.listStatus,
+        addStatus: !this.state.addStatus,
+      })
+    }
+    this.qryVaccinationHistion();
   },
   editEquip(record){
     // console.log(record.id);
-    // var recordId= record.id;
+    var recordId= record.id;
     // this.setState({
     //   listStatus: !this.state.listStatus,
     //   updateStatus: !this.state.updateStatus,
     // })
+    this.setState({
+        recordId:recordId,
+        add: !this.state.listStatus,
+        listStatus: !this.state.listStatus,
+        addStatus: !this.state.addStatus,
+     })
 
-    $history.push("/LabEquipEdit/" + record.id);
+    // $history.push("/LabEquipEdit/" + record.id);
   },
   deleteEquip(record){
     const self = this;
@@ -105,7 +121,7 @@ var Message = React.createClass({
             { title: '设备编号', width: 100, dataIndex: 'id', key: 'id', fixed: 'left' },
             { title: '设备名称', width: 100, dataIndex: 'equip_name', key: 'equip_name', fixed: 'left' },
             { title: '入库时间', width: 100, dataIndex: 'storage_time', key: 'storage_time', fixed: 'left' },
-            { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 150,
+            { title: '操作', key: 'operation',
             render: (text, record, index) => (
               <span>
                <a onClick={() => this.deleteEquip(record)}>删除</a>
@@ -113,8 +129,7 @@ var Message = React.createClass({
                <a onClick={() => this.editEquip(record)}>修改</a>
              </span>
               ),
-          },
-          ];
+          }];
     var labEquipRecord = this.state.labEquipRecord;
     const dataList=[];
     if(labEquipRecord == undefined){
@@ -143,6 +158,9 @@ var Message = React.createClass({
     const listStatus = this.state.listStatus;
     const addStatus = this.state.addStatus;
     const updateStatus = this.state.updateStatus;
+    var add = this.state.add;
+    var recordId = this.state.recordId;
+    console.log("jfdkfjkdfjdkf",recordId);
     return (
       <div style={{clear:'none',paddingTop:'5%'}}>
       <Row>
@@ -150,11 +168,11 @@ var Message = React.createClass({
       </Row>
         <div className={listStatus ? "list_equip" : "list_equip1"}>
           <Button className="editable-add-btn" type="ghost" onClick={this.handleAdd}>添加</Button>
-          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} />
         </div>
         <div className={addStatus ? "add_equip" : "add_equip1"}>
           <Button className="editable-add-btn" type="ghost" onClick={this.handleBack}>返回</Button>
-          <LabEquipAdd/>
+          {add?<LabEquipAdd/>:<LabEquipEdit recordId={recordId}/>}
         </div>
       </div>
     );

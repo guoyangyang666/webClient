@@ -34,7 +34,7 @@ class LabEquipAdd extends React.Component {
        async:true
      },function(response){
         var Record = response;
-        console.log("接收的到值111",Record);
+        console.log("接收的到值Record",Record);
         self.setState({
           Record:Record,//列表
         });

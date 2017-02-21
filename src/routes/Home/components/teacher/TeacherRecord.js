@@ -161,14 +161,13 @@ change:function(e){
         dataIndex: 'laboratory_name',
         key: 'laboratory_name',
         },
-        { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 150,
+        { title: '操作', key: 'operation',
         render: (text, record, index) => (
           <span>
            <a onClick={() => this.cancelEquip(record)}>取消</a>
          </span>
           ),
-        },
-          ];
+        }];
     var labEquipRecord = this.state.labEquipRecord;
     const dataList=[];
     if(labEquipRecord == undefined){
@@ -230,7 +229,7 @@ change:function(e){
           onOk={this.handleOk} onCancel={this.handleCancel}>
           <div><Input size="large"  onChange={this.change} value={this.state.value} placeholder="请輸入取消的原因"/></div>
         </Modal>
-          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} />
         </div>
       </div>
 

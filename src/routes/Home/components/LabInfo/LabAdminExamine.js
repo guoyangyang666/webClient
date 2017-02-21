@@ -1,40 +1,32 @@
 import React from 'react';
 import { Link, browserHistory, hashHistory } from 'react-router';
-import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop, Steps, message, Form, Checkbox,Select } from 'antd';
+import { Row, Col, Tooltip, Carousel, Menu, Icon, Table, Modal, Button, Input, BackTop,Popconfirm, Steps, message, Form, Checkbox,Select } from 'antd';
 const Option = Select.Option;
 var Message = React.createClass({
   getInitialState(){
       return{
-        id:'',
-        equip_name:'',
-        storage_time:'',
+        fail_reason:'',
         labEquipRecord:[],//列表
         selectedRowKeys: [],  // Check here to configure the default column
       };
     },
 
   componentWillMount() {
-     //this.qryVaccinationHistion();
+     this.qryVaccinationHistion();
     },
     qryVaccinationHistion() {
      const self = this;
-     var url = $CONTEXT_ADDR + '/labAdmin/getAllEquip.do';
+     var url = $CONTEXT_ADDR + '/labAdmin/quryStuAppoint.do';
      $ajax.get({
        type: "POST",
        url: url,
        dataType: "json",
        data : {
          "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号
-         "type": localStorage.getItem('logintype'),//管理员类型
-         "staff_id": localStorage.getItem('number'),//管理员工号
        },
        async:true
      },function(response){
         var labEquipRecord = response;
-
-        // for(var i=0; i<res.length; i++){
-        //   var labEquipRecord = res[i];
-        // }
         self.setState({
           labEquipRecord:labEquipRecord,//列表
         });
@@ -46,9 +38,47 @@ var Message = React.createClass({
   handleAdd(){
     $history.push("/LabEquipAdd");
   },
-  editEquip(record){
-    $history.push("/LabEquipEdit/" + record.id);
-  },
+  //审批
+  shenPi(record){
+    const self = this;
+    var url = $CONTEXT_ADDR + '/labAdmin/changeStuAppoint.do';
+    console.log(record.id);
+    $ajax.get({
+      type: "POST",
+      url: url,
+      dataType: "json",
+      data : {
+        "id": record.id,//实验室编号
+        "stu_id":record.stu_id,//学生学号
+        "status":'1',//状态
+        "fail_reason": '',//未通过原因
+      },
+      async:true
+    },function(response){
+      if(response[0].code == 1){
+        Modal.success({
+          title:'审批成功',
+        })
+        self.qryVaccinationHistion();
+      }else {
+        Modal.error({
+          title:'操作失败，请稍后重试',
+        })
+      }
+       self.setState({
+         fail_reason:'',
+       });
+
+    },function(e){
+      //console.log("e..." , e);
+    });
+    this.setState({
+
+    })
+      this.qryVaccinationHistion();
+
+    },
+
   deleteEquip(record){
     const self = this;
     var url = $CONTEXT_ADDR + '/labAdmin/deleteLabInfo.do';
@@ -79,93 +109,183 @@ var Message = React.createClass({
     this.qryVaccinationHistion();
 
   },
-  onSelectChange(selectedRowKeys) {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
-    this.setState({ selectedRowKeys });
+  handleChange(event){
+    console.log('event',event.target.value);
+    var fail_reason=this.state.fail_reason;
+    this.setState({
+      fail_reason:event.target.value,
+    })
   },
-  handleChange(value) {
-    console.log(`selected ${value}`);
-  },
+  onOk(record){
+    console.log("index",record.id);
+    var fail_reason=this.state.fail_reason;
+    const self = this;
+    var url = $CONTEXT_ADDR + '/labAdmin/changeStuAppoint.do';
+    console.log(record.id);
+    $ajax.get({
+      type: "POST",
+      url: url,
+      dataType: "json",
+      data : {
+        "id": record.id,//实验室编号
+        "stu_id":record.stu_id,//学生学号
+        "status":'4',//状态(不通过为4)
+        "fail_reason": this.state.fail_reason,//未通过原因
+      },
+      async:true
+    },function(response){
+      if(response[0].code == 1){
+        Modal.success({
+          title:'审批成功',
+        })
+        self.qryVaccinationHistion();
+      }else {
+        Modal.error({
+          title:'操作失败，请稍后重试',
+        })
+      }
 
+       self.setState({
+
+       });
+
+    },function(e){
+      //console.log("e..." , e);
+    });
+
+  },
   render() {
+    var fail_reason=this.state.fail_reason;
+    var shnep=<Input defaultValue={this.state.fail_reason}  onChange={this.handleChange} ></Input>
     const columns = [
       {
-        title: '实验室编号',
-        dataIndex: 'name',
-        key: 'name',
-        render(text) {
-        return <a href="#">{text}</a>;
-        }
-        }, {
-        title: '实验室名称',
-        dataIndex: 'age',
-        key: 'age',
-        }, {
-        title: '试验项目批次',
-        dataIndex: 'address',
-        key: 'address',
+        title: '实验名称',
+        dataIndex: 'experim_name',
+        key: 'experim_name',
         },{
-        title: '预约时间',
-        dataIndex: 'time',
-        key: 'address',
-        }, {
+       title: '实验批次',
+       dataIndex: 'batch',
+       key: 'batch',
+       },{
+        title: '第几周',
+        dataIndex: 'appoint_week',
+        key: 'appoint_week',
+        },{
+        title: '周几',
+        dataIndex: 'week',
+        key: 'week',
+        },{
+       title: '上课时间',
+       dataIndex: 'times',
+       key: 'times',
+       },{
+       title: '教师工号',
+       dataIndex: 'staff_id',
+       key: 'staff_id',
+       },  {
+       title: '教师姓名',
+       dataIndex: 'staff_name',
+       key: 'staff_name',
+       },
+        {
         title: '学生学号',
-        dataIndex: 'num',
-        key: 'num',
+        dataIndex: 'stu_id',
+        key: 'stu_id',
         },  {
         title: '学生姓名',
-        dataIndex: 'numname',
-        key: 'numname',
-        }, {
+        dataIndex: 'stu_name',
+        key: 'stu_name',
+        },
+        {
+        title: '超出人数',
+        dataIndex: 'renshu',
+        key: 'renshu',
+      },{
         title: '预约状态',
         dataIndex: 'status',
         key: 'status',
         },
-          ];
+        { title: '操作', key: 'operation',
+          render: (text, record, index) => {
+            return (
+                <span>
+                 <a onClick={() => this.shenPi(record)}>通过</a>
+                 <span className="ant-divider" />
+                 <Popconfirm title={shnep} onConfirm={() => this.onOk(record)}>
+                   <a href="#">不通过</a>
+                 </Popconfirm>
+               </span>
 
-          const data = [{
-            key: '11',
-            name: '1010',
-            age: '网络实验室',
-            time:'周二 1-2',
-            address: '实验1',
-            num:'201322450718',
-            numname:'郭洋洋',
-            status:'未审核'
-          }, {
-            key: '2',
-            name: '1010',
-            age: '网络实验室',
-            time:'周二 1-2',
-            address: '实验2',
-            num:'2014224500505',
-            numname:'丁宇',
-            status:'审核通过'
-          }];
+            );
+          },
+        }];
+
     var labEquipRecord = this.state.labEquipRecord;
-    console.log("1111yangyagn"+labEquipRecord.length);
-    console.log(labEquipRecord);
     const dataList=[];
     if(labEquipRecord == undefined){
-      var id = labEquipRecord.id;//随访服务id
-      var equip_name = labEquipRecord.equip_name;//产后随访机构
-      var storage_time = labEquipRecord.storage_time;//随访方式
+      var id = labEquipRecord.id;//id
+      var status = labEquipRecord.status;//预约状态
+      var stu_id = labEquipRecord.stu_id;//学生学号
+      var stu_name = labEquipRecord.stu_name;//学生姓名
+      var staff_id = labEquipRecord.staff_id;//教师工号
+      var staff_name = labEquipRecord.staff_name;//教师姓名
+      var batch = labEquipRecord.batch;//实验批次
+      var week = labEquipRecord.week;//周几
+      var start_times = parseInt(labEquipRecord.start_times);
+      var stop_times = parseInt(labEquipRecord.stop_times)+start_times;
+      var times = '第'+start_times +'—'+ stop_times+'节';//上课时间
+      var appoint_week = labEquipRecord.appoint_week;//第几周
+      var experim_name = labEquipRecord.experim_name;//实验名称
+      var experim_num = parseInt(labEquipRecord.experim_num);//已预约人数
+      var laboratory_renshu = parseInt(labEquipRecord.laboratory_renshu);//实验室容纳人数
+      var renshu=experim_num-laboratory_renshu;//超出人数
       dataList.push({
         key: i,
-        id:labEquipRecord.id,
-        equip_name:labEquipRecord.equip_name,
-        storage_time:labEquipRecord.storage_time,
+        id :id,//id
+        status : status,//预约状态
+        stu_id : stu_id,//学生学号
+        stu_name : stu_name,//学生姓名
+        staff_id : staff_id,//教师工号
+        staff_name : staff_name,//教师姓名
+        batch : batch,//实验批次
+        week : week,//周几
+        times :times,//上课时间
+        appoint_week : appoint_week,//第几周
+        experim_name : experim_name,//实验名称
+        renshu:renshu,//超出人数
       });
     }else {
       for (var i = 0; i < labEquipRecord.length; i++) {
-        var id = labEquipRecord[i].id;//随访服务id
-        var equip_name = labEquipRecord[i].equip_name;//产后随访机构
-        var storage_time = labEquipRecord[i].storage_time;//随访方式
+        var id = labEquipRecord[i].id;//id
+        var status = labEquipRecord[i].status;//预约状态
+        var stu_id = labEquipRecord[i].stu_id;//学生学号
+        var stu_name = labEquipRecord[i].stu_name;//学生姓名
+        var staff_id = labEquipRecord[i].staff_id;//教师工号
+        var staff_name = labEquipRecord[i].staff_name;//教师姓名
+        var batch = labEquipRecord[i].batch;//实验批次
+        var week = labEquipRecord[i].week;//周几
+        var start_times = parseInt(labEquipRecord[i].start_times);
+        var stop_times = parseInt(labEquipRecord[i].stop_times)+start_times;
+        var times = '第'+start_times +'—'+ stop_times+'节';//上课时间
+        var appoint_week = labEquipRecord[i].appoint_week;//第几周
+        var experim_name = labEquipRecord[i].experim_name;//实验名称
+        var experim_num = parseInt(labEquipRecord[i].experim_num);//已预约人数
+        var laboratory_renshu = parseInt(labEquipRecord[i].laboratory_renshu);//实验室容纳人数
+        var renshu=experim_num-laboratory_renshu;//超出人数
         dataList.push({
           key: i,
-          id:labEquipRecord[i].id,
-          equip_name:labEquipRecord[i].equip_name,
-          storage_time:labEquipRecord[i].storage_time,
+          id :id,//id
+          status : status,//预约状态
+          stu_id : stu_id,//学生学号
+          stu_name : stu_name,//学生姓名
+          staff_id : staff_id,//教师工号
+          staff_name : staff_name,//教师姓名
+          batch : batch,//实验批次
+          week : week,//周几
+          times :times,//上课时间
+          appoint_week : appoint_week,//第几周
+          experim_name : experim_name,//实验名称
+          renshu:renshu,//超出人数
         });
       }
     }
@@ -181,27 +301,8 @@ var Message = React.createClass({
         <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'3%'}}>预约记录</p>
       </Row>
         <div>
-          <div style={{ marginBottom: 16 }}>
-            <Button type="primary"
-              disabled={!hasSelected}
-            >审批</Button>
-            <span style={{ marginLeft: 8 }}>{hasSelected ? `已选 ${selectedRowKeys.length} 条` : ''}</span>
-            <span style={{float:'right'}}>
-              <Select defaultValue="请选择实验名" style={{ width: 120 }} onChange={this.handleChange}>
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="disabled" disabled>Disabled</Option>
-                <Option value="Yiminghe">yiminghe</Option>
-              </Select>
-              <Select defaultValue="请选择批次" style={{ width: 120 }} onChange={this.handleChange}>
-                <Option value="jack">Jack</Option>
-                <Option value="lucy">Lucy</Option>
-                <Option value="disabled" disabled>Disabled</Option>
-                <Option value="Yiminghe">yiminghe</Option>
-              </Select>
-            </span>
-          </div>
-          <Table columns={columns} rowSelection={rowSelection}  dataSource={data}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+
+          <Table columns={columns}   dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} />
         </div>
       </div>
     );
@@ -211,3 +312,26 @@ var Message = React.createClass({
 });
 
 module.exports = Message;
+// <div style={{ marginBottom: 16 }}>
+//
+//   <span style={{float:'right'}}>
+//     <Select defaultValue="请选择实验名" style={{ width: 120 }} onChange={this.handleChange}>
+//       <Option value="jack">Jack</Option>
+//       <Option value="lucy">Lucy</Option>
+//       <Option value="disabled" disabled>Disabled</Option>
+//       <Option value="Yiminghe">yiminghe</Option>
+//     </Select>
+//     <Select defaultValue="请选择批次" style={{ width: 120 }} onChange={this.handleChange}>
+//       <Option value="jack">Jack</Option>
+//       <Option value="lucy">Lucy</Option>
+//       <Option value="disabled" disabled>Disabled</Option>
+//       <Option value="Yiminghe">yiminghe</Option>
+//     </Select>
+//   </span>
+// </div>
+
+// <Button type="primary"
+//   disabled={!hasSelected}
+//   onClick={this.shenpi}
+// >审批</Button>
+// <span style={{ marginLeft: 8 }}>{hasSelected ? `已选 ${selectedRowKeys.length} 条` : ''}</span>

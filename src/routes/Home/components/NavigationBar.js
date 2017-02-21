@@ -6,7 +6,7 @@ const MenuItemGroup = Menu.ItemGroup;
 const NavigationBar = React.createClass({
   getInitialState() {
     return {
-       current: 'mail',
+       current: '',
        displayStatusStu:false,//学生预约导航栏状态
        displayStatus:true,
        displayStatusTea:false,//教师预约导航栏状态
@@ -26,7 +26,9 @@ const NavigationBar = React.createClass({
       this.setState({ displayStatusTea: !this.state.displayStatusTea });
       this.setState({ displayStatus: !this.state.displayStatus });
     }else if(gtype == "1"){
+      console.log("我是",gtype)
       this.setState({ displayStatusAdm: !this.state.displayStatusAdm });
+      console.log(this.state.displayStatusAdm);
       this.setState({ displayStatus: !this.state.displayStatus });
     }
     // var url = $CONTEXT_ADDR + '/personalBasicInfo/basicInfo.ws';
@@ -61,41 +63,43 @@ const NavigationBar = React.createClass({
     const displayStatus = this.state.displayStatus;
     const displayStatusTea = this.state.displayStatusTea;
     const displayStatusAdm = this.state.displayStatusAdm;
+    console.log("222",displayStatusAdm);
     return (
       <div>
       <Menu onClick={this.handleClick}
       selectedKeys={[this.state.current]}
       mode="horizontal"
+
     >
       <Menu.Item key="IndexHome">
-        <Icon type="mail" />首页
+        <Icon type="home" />首页
       </Menu.Item>
       <Menu.Item key="ReserveProcess">
-        <Icon type="mail" />预约流程
+        <Icon type="setting" />预约流程
       </Menu.Item>
       <Menu.Item key="NewsList">
-        <Icon type="mail" />新闻动态
+        <Icon type="credit-card" />新闻动态
       </Menu.Item>
       <Menu.Item key="EquipLeftBar">
-        <Icon type="mail" />设备展示
+        <Icon type="share-alt" />设备展示
       </Menu.Item>
-      <Menu.Item key="mail6">
-        <Icon type="mail" />资料下载
+      <Menu.Item key="LabNoticeList">
+        <Icon type="message" />最新公告
       </Menu.Item>
       <Menu.Item key="ContactMe">
-        <Icon type="mail" />联系我们
+      <Icon type="customer-service" />联系我们
       </Menu.Item>
       <Menu.Item key="LoginDesc" className={displayStatus ? "displayStatus" : "displayStatus1"}>
-        <Icon type="mail" />预约服务
+        <Icon type="appstore-o" />预约服务
       </Menu.Item>
       <Menu.Item key="StuReserve" className={displayStatusStu ? "displayStatusStu1" : "displayStatusStu"}>
-        <Icon type="mail" />学生预约服务
+        <Icon type="android" />学生预约服务
       </Menu.Item>
       <Menu.Item key="TeacherReserve" className={displayStatusTea ? "displayStatusTea" : "displayStatusTea1"}>
-        <Icon type="mail" />教师预约服务
+        <Icon type="android" />教师预约服务
       </Menu.Item>
       <Menu.Item key="LabAdmin" className={displayStatusAdm ? "displayStatusAdm" : "displayStatusAdm1"}>
-        <Icon type="mail" />实验室管理服务
+        <Icon type="android" />实验室管理
       </Menu.Item>
     </Menu>
       </div>

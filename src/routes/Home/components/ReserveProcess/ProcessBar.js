@@ -41,7 +41,7 @@ const ProcessBar = React.createClass({
 
            <Menu mode="inline" theme="dark" defaultSelectedKeys={['BeginnerGuide']} onClick={this.handleClick}>
              <Menu.Item key="BeginnerGuide" className="menu">
-               <span className="nav-text">新手指南</span>
+               <span className="nav-text" style={{textAlign:'center'}}>新手指南</span>
              </Menu.Item>
              <Menu.Item key="AppointNotice" className="menu">
                <span className="nav-text">预约须知</span>

@@ -39,71 +39,89 @@ var Message = React.createClass({
   handleAdd(){
     $history.push("/LabEquipAdd");
   },
+  //选课之前先检查该学生有没有预约该课程
   editEquip(record){
     const self = this;
-      var url = $CONTEXT_ADDR + '/students/quryStu.do';
-      $ajax.get({
-        type: "POST",
-        url: url,
-        dataType: "json",
-        data : {
-          "stu_id": localStorage.getItem('number'),//学生编号
-          "course_time_id": record.id,//编号id
-        },
-        async:true
-      },function(response){
+    var url = $CONTEXT_ADDR + '/students/quryStu.do';
+    $ajax.get({
+      type: "POST",
+      url: url,
+      dataType: "json",
+      data : {
+        "stu_id": localStorage.getItem('number'),//学生编号
+        "course_time_id": record.id,//编号id
+      },
+      async:true
+    },function(response){
+       var res = response;
+       console.log("res111",res.length);
+       if(res.length==0){
+         self.ceshi(record);
+       }else{
+         console.log("11111");
+         console.log("res.status",res.status);
+         for(var i=0; i<res.length; i++){
+           if(res[i].status==1){
+             Modal.error({
+               title:'已审核成功，请勿再选',
+             })
+           }else if(res[i].status==2){
+             Modal.error({
+               title:'正在审核中，请勿再选',
+             })
+           }else if(res[i].status==4){
+             Modal.error({
+               title:'审核未通过，请勿再选',
+             })
+           }else{
+             console.log("zhxingl");
+             self.ceshi(record);
+           }
+         }
 
-        if(response[0].code == 1){
-          var url = $CONTEXT_ADDR + '/students/addStuExperim.do';
-          $ajax.get({
-            type: "POST",
-            url: url,
-            dataType: "json",
-            data : {
-              "stu_id": localStorage.getItem('number'),//学生编号
-              "course_time_id": record.id,//编号id
-              "laboratory_id": record.laboratory_id,//编号id
-              "staff_id":record.staff_id,//教师工号
-              "experim_num":record.experim_num+1,
-            },
-            async:true
-          },function(response){
-            if(response[0].code == 1){
-              Modal.success({
-                title:'预约成功',
-              })
-              self.qryVaccinationHistion();
-            }else {
-              Modal.error({
-                title:'操作失敗，請稍後充實',
-              })
-            }
-             self.setState({
+       }
 
-             });
+       self.setState({
 
-          },function(e){
-            //console.log("e..." , e);
-          });
-        }else if(response[0].code == 2){
-          Modal.error({
-            title:'您已预约该实验',
-          })
-        }else{
-          Modal.error({
-            title:'请稍后再试',
-          })
-        }
-         self.setState({
+       });
 
-         });
+    },function(e){
+      //console.log("e..." , e);
+    });
+  },
+  ceshi(record){
+    var self=this;
+    var url = $CONTEXT_ADDR + '/students/addStuExperim.do';
+    $ajax.get({
+      type: "POST",
+      url: url,
+      dataType: "json",
+      data : {
+        "stu_id": localStorage.getItem('number'),//学生编号
+        "course_time_id": record.id,//编号id
+        "laboratory_id": record.laboratory_id,//编号id
+        "staff_id":record.staff_id,//教师工号
+        "experim_num":record.experim_num+1,
+      },
+      async:true
+    },function(response){
+      if(response[0].code == 1){
+        Modal.success({
+          title:'预约成功',
+        })
+        self.qryVaccinationHistion();
+      }else {
+        Modal.error({
+          title:'操作失败，请稍后重试',
+        })
+      }
+       self.setState({
 
-      },function(e){
-        //console.log("e..." , e);
-      });
+       });
 
-
-
+    },function(e){
+      //console.log("e..." , e);
+    });
   },
   render() {
     const columns = [
@@ -148,7 +166,7 @@ var Message = React.createClass({
         dataIndex: 'experim_num',
         key: 'experim_num',
         },
-        { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 50,
+        { title: '操作', key: 'operation', fixed: true, dataIndex: 'operation',
           render: (text, record, index) => (
             <span>
              <a onClick={() => this.editEquip(record)}>预约</a>
@@ -234,7 +252,7 @@ var Message = React.createClass({
       </Row>
         <div>
 
-          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} />
         </div>
       </div>
 

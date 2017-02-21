@@ -18,6 +18,7 @@ import EquipList from '../routes/Home/components/IndexBrowse/EquipList';
 import EquipBar from '../routes/Home/components/IndexBrowse/EquipBar';
 import EquipDetail from '../routes/Home/components/IndexBrowse/EquipDetail';
 import EquipLeftBar from '../routes/Home/components/IndexBrowse/EquipLeftBar';
+import TeacherAppoint from '../routes/Home/components/IndexBrowse/TeacherAppoint';
 global.$history = hashHistory;
 const routes = (
   <Router history={$history}>
@@ -34,7 +35,7 @@ const routes = (
     </Route>
     <Route path="/LoginInfo" component={LoginInfo} />
     <Route path="/LabNoticeList" component={LabNoticeList} />
-
+    <Route path="/TeacherAppoint" component={TeacherAppoint} />
     <Route path="/LabEquipEdit/:LabEquipid" component={LabEquipEdit} />
   </Router>
 );
