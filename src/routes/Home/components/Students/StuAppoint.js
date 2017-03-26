@@ -166,13 +166,13 @@ var Message = React.createClass({
         dataIndex: 'experim_num',
         key: 'experim_num',
         },
-        { title: '操作', key: 'operation', fixed: true, dataIndex: 'operation',
+        { title: '操作', key: 'operation',
           render: (text, record, index) => (
             <span>
              <a onClick={() => this.editEquip(record)}>预约</a>
            </span>
             ),
-        },
+        }
         ];
     var labEquipRecord = this.state.labEquipRecord;
     const dataList=[];

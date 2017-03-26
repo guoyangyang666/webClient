@@ -118,10 +118,10 @@ var Message = React.createClass({
   },
   render() {
     const columns = [
-            { title: '设备编号', width: 100, dataIndex: 'id', key: 'id', fixed: 'left' },
-            { title: '设备名称', width: 100, dataIndex: 'equip_name', key: 'equip_name', fixed: 'left' },
-            { title: '入库时间', width: 100, dataIndex: 'storage_time', key: 'storage_time', fixed: 'left' },
-            { title: '操作', key: 'operation',
+            { title: '设备编号', width: 100, dataIndex: 'id', key: 'id' },
+            { title: '设备名称', width: 100, dataIndex: 'equip_name', key: 'equip_name' },
+            { title: '入库时间', width: 100, dataIndex: 'storage_time', key: 'storage_time' },
+            { title: '操作', key: 'operation',width:'100',
             render: (text, record, index) => (
               <span>
                <a onClick={() => this.deleteEquip(record)}>删除</a>

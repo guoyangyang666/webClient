@@ -101,21 +101,29 @@ var Message = React.createClass({
   }
 
 },
-  deleteEquip(record){
+  delete(record){
     const self = this;
-    var url = $CONTEXT_ADDR + '/labAdmin/deleteLabInfo.do';
+    var url = $CONTEXT_ADDR + '/students/deleteAppointList.do';
     console.log(record.id);
     $ajax.get({
       type: "POST",
       url: url,
       dataType: "json",
       data : {
-        "id": record.id,//实验室编号
-        "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号id
+        "id": record.id,//
       },
       async:true
     },function(response){
-
+      if(response[0].code == 1){
+        Modal.success({
+          title:'删除成功',
+        })
+        self.qryVaccinationHistion();
+      }else {
+        Modal.error({
+          title:'删除失败',
+        })
+      }
        self.setState({
 
        });
@@ -173,14 +181,14 @@ var Message = React.createClass({
        dataIndex: 'status',
        key: 'status',
      },
-      { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 50,
+      { title: '操作', dataIndex: 'operation', key: 'operation',
           render: (text, record, index) => (
             <span>
-              <a onClick={() => this.cancel(record)}>取消</a>
+              {(record.status == '审核未通过') ? <a onClick={() => this.delete(record)}>删除</a> : <a onClick={() => this.cancel(record)}>取消111</a>}
            </span>
 
             ),
-        },
+        }
           ];
           var labEquipRecord = this.state.labEquipRecord;
           const dataList=[];
@@ -208,6 +216,10 @@ var Message = React.createClass({
               var status = '审核成功';//状态，1为预约成功，2为审核中，3为取消
             }else if(labEquipRecord.status == '2'){
               var status = '审核中';//状态，1为预约成功，2为审核中，3为取消
+            }else if(labEquipRecord.status=='3'){
+              var status='取消';
+            }else if(labEquipRecord.status=='4'){
+              var status='审核未通过';
             }
             dataList.push({
               key: i,
@@ -253,7 +265,11 @@ var Message = React.createClass({
               if(labEquipRecord[i].status == '1'){
                 var status = '审核成功';//状态，1为预约成功，2为审核中，3为取消
               }else if(labEquipRecord[i].status == '2'){
-                var status = '审核中';//状态，1为预约成功，2为审核中，3为取消
+                var status = '审核中';//状态，1为预约成功，2为审核中，3为取消，4为未通过
+              }else if(labEquipRecord[i].status=='3'){
+                var status='取消';
+              }else if(labEquipRecord[i].status=='4'){
+                var status='审核未通过';
               }
               dataList.push({
                 key: i,

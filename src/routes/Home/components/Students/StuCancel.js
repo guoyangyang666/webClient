@@ -112,13 +112,13 @@ var Message = React.createClass({
        dataIndex: 'staff_name',
        key: 'staff_name',
      },
-      { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 50,
+      { title: '操作', key: 'operation',
       render: (text, record, index) => (
         <span>
          <a onClick={() => this.delete(record)}>删除</a>
        </span>
         ),
-    },
+    }
   ];
   var labEquipRecord = this.state.labEquipRecord;
   const dataList=[];

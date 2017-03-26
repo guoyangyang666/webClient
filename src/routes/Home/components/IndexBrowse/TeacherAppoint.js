@@ -10,55 +10,68 @@ const SingleAppoint = React.createClass({
 
     };
   },
-  //选课之前先检查该学生有没有预约该课程
-  onHandleClick(a){
+
+  onHandleClick(){
     const self = this;
-    console.log("idwei",a);
+    console.log("预约执行");
+    console.log("idwei",self.props.id);
+    //选课之前先检查有没有学生登陆
+    if(localStorage.getItem('number') != null && localStorage.getItem('logintype') =='3'){
+      self.qury(self.props.id);
+    }else{
+      Modal.warning({
+        title:'您未登陆学生账号',
+      })
+    }
+
+  },
+  qury(record){
+    var self=this;
     var url = $CONTEXT_ADDR + '/students/quryStu.do';
-    // // $ajax.get({
-    // //   type: "POST",
-    // //   url: url,
-    // //   dataType: "json",
-    // //   data : {
-    // //     "stu_id": localStorage.getItem('number'),//学生编号
-    // //     "course_time_id": record.id,//编号id
-    // //   },
-    // //   async:true
-    // // },function(response){
-    // //    var res = response;
-    // //    if(res.length==0){
-    // //      self.ceshi(record);
-    // //    }else{
-    // //      console.log("11111");
-    // //      console.log("res.status",res.status);
-    // //      for(var i=0; i<res.length; i++){
-    // //        if(res[i].status==1){
-    // //          Modal.error({
-    // //            title:'已审核成功，请勿再选',
-    // //          })
-    // //        }else if(res[i].status==2){
-    // //          Modal.error({
-    // //            title:'正在审核中，请勿再选',
-    // //          })
-    // //        }else if(res[i].status==4){
-    // //          Modal.error({
-    // //            title:'审核未通过，请勿再选',
-    // //          })
-    // //        }else{
-    // //          console.log("zhxingl");
-    // //         // self.ceshi(record);
-    // //        }
-    // //      }
-    // //
-    // //    }
-    //
-    //    self.setState({
-    //
-    //    });
-    //
-    // },function(e){
-    //   //console.log("e..." , e);
-    // });
+    $ajax.get({
+      type: "POST",
+      url: url,
+      dataType: "json",
+      data : {
+        "stu_id": localStorage.getItem('number'),//学生编号
+        "course_time_id": record,//编号id
+      },
+      async:true
+    },function(response){
+       var res = response;
+       if(res.length==0){
+         self.ceshi(record);
+       }else{
+         console.log("11111");
+         console.log("res.status",res.status);
+         for(var i=0; i<res.length; i++){
+           if(res[i].status==1){
+             Modal.error({
+               title:'已审核成功，请勿再选',
+             })
+           }else if(res[i].status==2){
+             Modal.error({
+               title:'正在审核中，请勿再选',
+             })
+           }else if(res[i].status==4){
+             Modal.error({
+               title:'审核未通过，请勿再选',
+             })
+           }else{
+             console.log("zhxingl");
+             self.ceshi(record);
+           }
+         }
+
+       }
+
+       self.setState({
+
+       });
+
+    },function(e){
+      //console.log("e..." , e);
+    });
   },
   ceshi(record){
     var self=this;
@@ -69,18 +82,18 @@ const SingleAppoint = React.createClass({
       dataType: "json",
       data : {
         "stu_id": localStorage.getItem('number'),//学生编号
-        "course_time_id": record.id,//编号id
-        "laboratory_id": record.laboratory_id,//编号id
-        "staff_id":record.staff_id,//教师工号
-        "experim_num":record.experim_num+1,
+        "course_time_id": this.props.id,//编号id
+        "laboratory_id": this.props.laboratory_id,//编号id
+        "staff_id":this.props.staff_id,//教师工号
+        "experim_num":this.props.experim_num+1,
       },
       async:true
     },function(response){
       if(response[0].code == 1){
         Modal.success({
-          title:'预约成功',
+          title:'预约成功,请在个人预约情况中查看详细信息',
         })
-        self.qryVaccinationHistion();
+        //self.qryVaccinationHistion();
       }else {
         Modal.error({
           title:'操作失败，请稍后重试',
@@ -105,9 +118,12 @@ const SingleAppoint = React.createClass({
     const {laboratory_name} = this.props;//结束的课时
     const {laboratory_adress} = this.props;//结束的课时
     const {laboratory_adressnum} = this.props;//结束的课时
+    const {laboratory_id} =this.props;//编号id
+    const {staff_id} =this.props;//编号id
+    const {experim_num} =this.props;//编号id
     return(
         <div >
-      <Card title={experim_name} extra={<a onClick={this.onHandleClick({id})}>预约</a>}  style={{width:'280',marginTop:'3%',float:'left',marginLeft:'1%',marginBottom:'3%'}}>
+      <Card title={experim_name} extra={<a onClick={() => this.onHandleClick()}>预约</a>}  style={{width:'280',marginTop:'3%',float:'left',marginLeft:'1%',marginBottom:'3%'}}>
         <p style={{marginTop:'1%',fontSize:'17',fontFamily:'楷体'}}>{staff_name}教师</p>
         <p style={{marginTop:'1%',fontSize:'17',fontFamily:'楷体'}}>实验室：{laboratory_name}</p>
         <p style={{marginTop:'1%',fontSize:'17',fontFamily:'楷体'}}>上课时间：{appoint_week}，{week}，{start_times}--{stop_times}</p>
@@ -123,7 +139,7 @@ const LabNotice = React.createClass({
     return{
       notice:[],//首页两条公告
       current: 1,//当前页是1
-      pageSize:3,
+      pageSize:6,
       totalRecord:'',
     };
   },
@@ -181,10 +197,14 @@ const LabNotice = React.createClass({
         var laboratory_name = res[i].laboratory_name;
         var laboratory_adress = res[i].laboratory_adress;
         var laboratory_adressnum = res[i].laboratory_adressnum;
+        var experim_num = res[i].experim_num;
+        var laboratory_id = res[i].laboratory_id;
+        var staff_id = res[i].staff_id;
         recordList.push({key : i, content : <SingleAppoint id={id} staff_name={staff_name}
           experim_name={experim_name} appoint_week={appoint_week} week={week}
           start_times={start_times} stop_times={stop_times} laboratory_name={laboratory_name}
-          laboratory_adress={laboratory_adress} laboratory_adressnum={laboratory_adressnum} />});
+          laboratory_adress={laboratory_adress} laboratory_adressnum={laboratory_adressnum}
+          experim_num={experim_num} laboratory_id={laboratory_id} staff_id={staff_id} />});
       }
     }
     var content =
@@ -208,9 +228,10 @@ const LabNotice = React.createClass({
                 {content}
               </div>
             </div>
-            <div style={{margin:'auto',width:'30%',paddingBottom:'30',paddingTop:'20',clear:'both'}}>
-                <Pagination current={this.state.current} onChange={this.onChange} total={this.state.totalRecord} pageSize={this.state.pageSize} showTotal={total => `总共 ${total} 条`}>
+            <div style={{margin:'auto',padding:'15',width:'40%',clear:'both',marginBottom:'30'}}>
+                <Pagination style={{width:'100%'}} current={this.state.current} onChange={this.onChange} total={this.state.totalRecord} pageSize={this.state.pageSize} showTotal={total => `总共 ${total} 条`}>
                 </Pagination>
+
             </div>
           </div>
         </Row>

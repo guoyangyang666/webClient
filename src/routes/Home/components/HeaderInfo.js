@@ -10,7 +10,7 @@ var Message = React.createClass({
       <div>
         <div className="top">
         <div style={{float:'right', marginRight:'2%'}}><LoginDesc/></div>
-          <div className="topT">开放实验室网上预约平台</div>
+          <div className="topT">河北经贸大学开放实验室网上预约平台</div>
           <div className="topB">
             <NavigationBar/>
           </div>

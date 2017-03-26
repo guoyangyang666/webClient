@@ -2,6 +2,7 @@ import React from 'react'
 import {Row, Col,Tooltip,Carousel,Menu, Icon,Table,Modal,Affix, Button,Input,BackTop,Pagination } from 'antd';
 import HeaderInfo from '../HeaderInfo';
 import FooterInfo from '../FooterInfo';
+import $ from 'jquery';
 //实验室公告
 const NewsDetail = React.createClass({
   getInitialState(){
@@ -31,11 +32,13 @@ const NewsDetail = React.createClass({
        var res = response;
        for(var i=0; i<res.length; i++){
          var news_id = res[i].id;//id
-         var news_date = res[i].news_date;//日期
+         var news_date = "发布时间："+res[i].news_date;//日期
          var news_detail = res[i].news_detail;//详情
          var news_title = res[i].news_title;//标题
-         var news_source = res[i].news_source;//来源
+         var news_source = "来源："+res[i].news_source;//来源
        }
+       console.log("news_detail",news_detail);
+       self.p(news_detail);
 
        self.setState({
          news_id:news_id,
@@ -49,9 +52,10 @@ const NewsDetail = React.createClass({
       //console.log("e..." , e);
     });
   },
-
+  p(news_detail){
+    $("#p2").append(news_detail);
+  },
   render(){
-
     var content =
     <div>
       <div className="box">
@@ -61,8 +65,8 @@ const NewsDetail = React.createClass({
 						<h3>{this.state.news_title}</h3>
             <span className="span1">{this.state.news_date}</span>
             <span>{this.state.news_source}</span>
-            <p className="p2">
-                {this.state.news_detail}
+            <p className="p2" id="p2">
+
             </p>
           </div>
       </div>

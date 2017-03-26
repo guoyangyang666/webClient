@@ -13,11 +13,10 @@ var Message = React.createClass({
       </Row>
       <Row>
         <ul className="ul_list">
-            <li>非本校学生不可以预约实验室</li>
-            <li>登陆</li>
-            <li>预约</li>
-            <li>查询</li>
-            <li>修改个人登陆密码</li>
+            <li>如您需预约请先登陆</li>
+            <li>您可在首页“实验室信息”中可以对实验进行预约。</li>
+            <li>也可在登陆后在导航栏中点击“学生预约服务”进行预约。</li>
+            <li>在“学生预约服务”中可查看个人的预约记录及取消记录等功能。</li>
         </ul>
       </Row>
     </div>

@@ -79,17 +79,27 @@ var ReserveRecord = React.createClass({
   },
   render() {
     const columns = [
-            { title: '预约时间', width: 100, dataIndex: 'id', key: 'id', fixed: 'left' },
-            { title: '实验室名称', width: 100, dataIndex: 'equip_name', key: 'equip_name', fixed: 'left' },
-            { title: '实验室地点', width: 100, dataIndex: 'storage_time', key: 'storage_time', fixed: 'left' },
-            { title: '操作', dataIndex: 'operation', key: 'operation', fixed: 'left',width: 150,
-            render: (text, record, index) => (
-              <span>
-               <a onClick={() => this.deleteEquip(record)}>删除</a>
-             </span>
-              ),
-          },
-          ];
+      {
+       title: '预约时间',
+       dataIndex: 'id',
+       key: 'id',
+       },{
+      title: '实验室名称',
+      dataIndex: 'equip_name',
+      key: 'equip_name',
+      },{
+       title: '实验室地点',
+       dataIndex: 'storage_time',
+       key: 'storage_time',
+       },
+       { title: '操作', key: 'x',
+       render: (text, record, index) => (
+         <span>
+          <a onClick={() => this.deleteEquip(record)}>刪除</a>
+        </span>
+         ),
+       }
+            ];
     var labEquipRecord = this.state.labEquipRecord;
     console.log("1111yangyagn"+labEquipRecord.length);
     console.log(labEquipRecord);
@@ -123,7 +133,7 @@ var ReserveRecord = React.createClass({
         <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'3%'}}>已取消记录</p>
       </Row>
         <div>
-          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true} scroll={{ x: true, y: 300 }} />
+          <Table columns={columns}  dataSource={dataList}  pagination={{ pageSize:4 }} bordered={true}/>
         </div>
       </div>
 

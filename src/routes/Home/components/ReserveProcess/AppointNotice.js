@@ -14,9 +14,9 @@ var AppointNotice = React.createClass({
                 </Row>
                 <Row>
                 <ul className="ul_list">
-                    <li>先登陆</li>
-                    <li>预约</li>
-                    <li>有什么问题联系管理员</li>
+                    <li>本校生根据学号及密码登陆系统方可预约实验室</li>
+                    <li>初始密码默认为6个0，请您及时修改密码。</li>
+                    <li>如您在预约过程中出现问题，请在“联系我们”中查找对应的人员进行询问。</li>
                 </ul>
                 </Row>
               </div>

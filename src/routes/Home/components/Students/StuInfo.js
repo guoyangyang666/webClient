@@ -62,7 +62,12 @@ const Message = Form.create()(React.createClass({
       //console.log("e..." , e);
     });
   },
-
+  handleChange: function(name, event){
+        var newState = {};
+        newState[name] = event.target.value;
+        this.setState(newState);
+       console.log(event.target.value);
+      },
   render() {
     const formItemLayout = {
           labelCol: { span: 6 },
@@ -79,33 +84,63 @@ const Message = Form.create()(React.createClass({
       <Row>
         <p style={{fontSize:'20',fontFamily:'楷体',textAlign:'center',marginBottom:'5%'}}>学生基本信息维护</p>
       </Row>
-      <div style={{width:'90%',margin:'0 auto'}}>
-        <Row >
-          <Col span={12}>学生学号：{this.state.id}</Col>
-          <Col span={12}>学生姓名：{this.state.stu_name}</Col>
-        </Row>
-        <Row >
-          <Col span={12}>学生性别：
-            <RadioGroup value={this.state.stu_sex}>
-              <Radio value='1'>男</Radio>
-              <Radio value='2'>女</Radio>
-            </RadioGroup>
-          </Col>
-          <Col span={12}>出生年月：{this.state.stu_birth}</Col>
-        </Row>
-        <Row >
-          <Col span={12}>身份证号：{this.state.stu_cardnum}</Col>
-          <Col span={12}>所在学院：{this.state.college_name}</Col>
-        </Row>
-        <Row >
-          <Col span={12}>所在专业：{this.state.dept_name}</Col>
-          <Col span={12}>所在班级：{this.state.class_name}</Col>
-        </Row>      
-        <Row >
-          <Col span={12}>所在年级：{this.state.grade_name}</Col>
-          <Col span={12}>学生简介：{this.state.stu_desc}</Col>
-        </Row>
-      </div>
+      <Form horizontal onSubmit={this.handleSubmit}>
+        <FormItem
+        {...formItemLayout}
+        label="学生学号："
+        hasFeedback
+      >
+        <Input type="text" value='201322450718'
+         onChange={this.handleChange.bind(this,'id')}/>
+      </FormItem>
+      <FormItem
+        {...formItemLayout}
+        label="学生姓名："
+        hasFeedback
+      >
+          <Input type="text" value='郭洋洋'
+           onChange={this.handleChange.bind(this,'laboratory_name')}/>
+      </FormItem>
+      <FormItem
+        {...formItemLayout}
+        label="所在学院："
+        hasFeedback
+      >
+          <Input type="text" value='信息技术学院'
+           onChange={this.handleChange.bind(this,'category_id')}/>
+      </FormItem>
+      <FormItem
+        {...formItemLayout}
+        label="所在专业："
+        hasFeedback
+      >
+          <Input type="text" value='网络工程'
+           onChange={this.handleChange.bind(this,'laboratory_adress')}/>
+      </FormItem>
+      <FormItem
+       {...formItemLayout}
+        label="所在班级："
+        hasFeedback
+      >
+          <Input type="text" value='网络13_2'
+           onChange={this.handleChange.bind(this,'laboratory_adressnum')}/>
+      </FormItem>
+      <FormItem
+        {...formItemLayout}
+        label="学生性别："
+        hasFeedback
+     >          <Input type="text" value='女'
+           onChange={this.handleChange.bind(this,'laboratory_renshu')}/>
+      </FormItem>
+      <FormItem
+        {...formItemLayout}
+        label="学生简介："
+        hasFeedback
+      >
+         <Input type="text" value='暂无'
+           onChange={this.handleChange.bind(this,'laboratory_desc')}/>
+      </FormItem>
+     </Form>
       </div>
     );
 

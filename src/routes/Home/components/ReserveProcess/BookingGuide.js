@@ -14,9 +14,9 @@ var BookingGuide = React.createClass({
                 </Row>
                 <Row>
                 <ul className="ul_list">
-                    <li>先登陆</li>
-                    <li>预约</li>
-                    <li>有什么问题联系管理员</li>
+                    <li>在预约之前请先先登陆。</li>
+                    <li>可根据周数及实验室预约。</li>
+                    <li>可在个人服务中查看个人信息、预约详情、取消详情等。</li>
                 </ul>
                 </Row>
               </div>

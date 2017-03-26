@@ -224,7 +224,16 @@ var Message = React.createClass({
     const dataList=[];
     if(labEquipRecord == undefined){
       var id = labEquipRecord.id;//id
-      var status = labEquipRecord.status;//预约状态
+      var status1 = labEquipRecord.status;//预约状态
+      if(status1=='1'){
+        var status='审核成功';
+      }else if(status1=='2'){
+        var status='审核中';
+      }else if(status1=='3'){
+        var status='取消';
+      }else if(status1=='4'){
+        var status='审核未通过';
+      }
       var stu_id = labEquipRecord.stu_id;//学生学号
       var stu_name = labEquipRecord.stu_name;//学生姓名
       var staff_id = labEquipRecord.staff_id;//教师工号
@@ -257,7 +266,16 @@ var Message = React.createClass({
     }else {
       for (var i = 0; i < labEquipRecord.length; i++) {
         var id = labEquipRecord[i].id;//id
-        var status = labEquipRecord[i].status;//预约状态
+        var status1 = labEquipRecord[i].status;//预约状态
+        if(status1=='1'){
+          var status='审核成功';
+        }else if(status1=='2'){
+          var status='审核中';
+        }else if(status1=='3'){
+          var status='取消';
+        }else if(status1=='4'){
+          var status='审核未通过';
+        }
         var stu_id = labEquipRecord[i].stu_id;//学生学号
         var stu_name = labEquipRecord[i].stu_name;//学生姓名
         var staff_id = labEquipRecord[i].staff_id;//教师工号

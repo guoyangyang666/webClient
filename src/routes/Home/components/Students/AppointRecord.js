@@ -88,8 +88,7 @@ var ReserveRecord = React.createClass({
                <a onClick={() => this.deleteEquip(record)}>删除</a>
              </span>
               ),
-          },
-          ];
+          }];
     var labEquipRecord = this.state.labEquipRecord;
     console.log("1111yangyagn"+labEquipRecord.length);
     console.log(labEquipRecord);

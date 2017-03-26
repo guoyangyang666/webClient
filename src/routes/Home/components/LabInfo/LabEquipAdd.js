@@ -115,11 +115,11 @@ class LabEquipAdd extends React.Component {
         return;
       }
       console.log('表单的值：',filedsValue);
-      console.log('入库时间',filedsValue['storage_time'].format("yyyy-MM-dd"));
+      console.log('入库时间',filedsValue['storage_time'].format("YYYY-MM-DD"));
 
       values={
         ...filedsValue,
-        "storage_time":filedsValue['storage_time'].format('yyyy-MM-dd'),
+        "storage_time":filedsValue['storage_time'].format('YYYY-MM-DD'),
         "laboratory_id": localStorage.getItem('laboratoryId'),//实验室编号id
         "type": localStorage.getItem('logintype'),//类型
         "staff_id": localStorage.getItem('number'),//管理员工号
@@ -180,7 +180,7 @@ class LabEquipAdd extends React.Component {
       rules: [
         {
           required: true,
-          type: 'date',
+          type: 'object',
           message: '入库时间',
         }, {
           validator: this.checkStorageTime,

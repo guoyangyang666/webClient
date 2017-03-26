@@ -136,7 +136,7 @@ const Message = Form.create()(React.createClass({
         label="管理员简介："
         hasFeedback
       >
-          <Input type="text" value={this.state.staff_desc}
+          <Input id="staff_desc" type="text" value={this.state.staff_desc}
            />
       </FormItem>
       </Form>

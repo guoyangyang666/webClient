@@ -113,6 +113,10 @@ var Message = React.createClass({
         var status = '审核成功';//状态，1为预约成功，2为审核中，3为取消
       }else if(labEquipRecord.status == '2'){
         var status = '审核中';//状态，1为预约成功，2为审核中，3为取消
+      }else if(labEquipRecord.status=='3'){
+        var status='取消';
+      }else if(labEquipRecord.status=='4'){
+        var status='审核未通过';
       }
       dataList.push({
         key: i,
@@ -144,6 +148,10 @@ var Message = React.createClass({
           var status = '审核成功';//状态，1为预约成功，2为审核中，3为取消
         }else if(labEquipRecord[i].status == '2'){
           var status = '审核中';//状态，1为预约成功，2为审核中，3为取消
+        }else if(labEquipRecord[i].status=='3'){
+          var status='取消';
+        }else if(labEquipRecord[i].status=='4'){
+          var status='审核未通过';
         }
         dataList.push({
           key: i,
